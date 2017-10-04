@@ -1,0 +1,74 @@
+extends ../layout
+
+block content
+  .page-header
+    ul.nav.nav-pills.pull-right(role="tablist")
+      li(role="presentation")
+        a(href="#") Guest Logs
+      li(role="presentation")
+        a(href="#") Register Non-Members
+      li(role="presentation")
+        a(href="#") Change Passwords
+    h3 Operator Dashboard
+
+  p.lead Approved Non-Members Registration
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='name') Name*
+      .col-sm-7
+        input.form-control(
+          type='name',
+          name='name',
+          id='name',
+          placeholder='Name',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='dob') Dob*
+      .col-sm-7
+        input.form-control(
+          type='dob',
+          name='dob',
+          id='dob',
+          placeholder='Date of Birth',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='nric') NRIC/FIN*
+      .col-sm-7
+        input.form-control(
+          type='nric',
+          name='nric',
+          id='nric',
+          placeholder='NRIC/FIN',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membership') Membership No.*
+      .col-sm-7
+        input.form-control(
+          type='membership',
+          name='membership',
+          id='membership',
+          placeholder='Membership No.',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membershipExpiry') Membership/Expiry*
+      .col-sm-7
+        input.form-control(
+          type='membershipExpiry',
+          name='membershipExpiry',
+          id='membershipExpiry',
+          placeholder='Membership/Expiry',
+          autofocus,
+          required
+        )
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.col-sm-3.btn.btn-primary(type='submit') Submit

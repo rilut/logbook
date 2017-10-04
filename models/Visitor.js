@@ -4,7 +4,7 @@ const visitorSchema = new mongoose.Schema({
   name: String,
   dob: Date, // date of birth
   nric: { type: String, unique: true }, // NRIC/FIN
-  membershipId: Number,
+  membershipId: String,
   membershipExpiry: Date,
   otherId: String,
   remarks: String,

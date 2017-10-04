@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema({
    * Consider deprecating profile field to make things simpler.
    */
   profile: {
-    name: String,
-    gender: String,
-    location: String,
-    website: String,
     picture: String
   }
 }, { timestamps: true });

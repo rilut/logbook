@@ -13,3 +13,9 @@ exports.guestLogs = (req, res) => {
     title: 'Guest Logs'
   });
 };
+
+exports.realtimeLogs = (req, res) => {
+  res.render('dashboard/realtime-logs', {
+    title: 'Realtime Logs'
+  });
+};

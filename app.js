@@ -33,6 +33,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const dashboardController = require('./controllers/dashboard');
 
 /**
  * API keys and Passport configuration.
@@ -131,6 +132,10 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
+/**
+ * Dashboard app routes
+ */
+app.get('/dashboard', dashboardController.index);
 /**
  * Error Handler.
  */

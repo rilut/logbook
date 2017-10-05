@@ -7,7 +7,8 @@ const Visitor = require('../models/Visitor');
 exports.getVisitors = (req, res, next) => {
   const query = {
     page: Number(req.query.page) || 1,
-    limit: Number(req.query.limit) || 20
+    limit: Number(req.query.limit) || 20,
+    sort: { createdAt: -1 }
   };
   Visitor.paginate({}, query, (err, visitors) => {
     if (err) {

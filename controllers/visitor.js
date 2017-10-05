@@ -81,11 +81,10 @@ exports.putVisitor = (req, res, next) => {
   const body = {
     otherFields: req.body.otherFields
   };
-  Visitor.findByIdAndUpdate(id, body, (err, visitor) => {
+  Visitor.findByIdAndUpdate(id, body, { new: true }, (err, visitor) => {
     if (err) {
       return next(err);
     }
-    visitor.otherFields = body.otherFields;
     res.json({ visitor });
     req.flash('success', { msg: 'Visitor information has been updated.' });
     // todo: render all visitors page

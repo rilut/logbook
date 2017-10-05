@@ -77,3 +77,22 @@ textarea {
   width: 100%;
   height: 100%;
 }
+
+.pagination-center {
+  margin-bottom: 20px;
+}
+
+@media(max-width: 680px) {
+  .btn-export-excel {
+    text-align: center;
+  }
+}
+@media(min-width: 681px) {
+  .btn-export-excel {
+    margin-top: -57px;
+    right: 15px;
+    float: right;
+    bottom: auto;
+    position: relative;
+  }
+}

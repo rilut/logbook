@@ -11,7 +11,58 @@ block content
         a(href="#") Change Passwords
     h3 Operator Dashboard
 
-  p.lead Approved Non-Members Registration
+  p.lead Approved Non-Members
+  table.table.table-striped.table-hover.table-bordered
+    tr
+      th.text-center.col-sm-3 Name
+      th.text-center.col-sm-1 DOB
+      th.text-center.col-sm-2 NRIC/FIN
+      th.text-center.col-sm-2 Membership No.
+      th.text-center.col-sm-2 Membership/Expiry
+      th.text-center.col-sm-1 Other ID
+      th.text-center.col-sm-1 Remarks
+    tr
+      td Giacomo Gullizoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+    tr
+      td Marco Botton
+      td 01/02/1999
+      td S1234567X
+      td &nbsp;
+      td &nbsp;
+      td S1234567X
+      td Contractor
+    tr
+      td Mariah Maclachlan
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+    tr
+      td Valerie Liberty
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+    tr
+      td Guido Jack Guilizzoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+
+  p.lead Add a new Approved Non-Members
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
@@ -26,13 +77,13 @@ block content
           required
         )
     .form-group
-      label.col-sm-3.control-label(for='dob') Dob*
+      label.col-sm-3.control-label(for='dob') DOB*
       .col-sm-7
         input.form-control(
           type='dob',
           name='dob',
           id='dob',
-          placeholder='Date of Birth',
+          placeholder='Date Of Birth',
           autofocus,
           required
         )
@@ -66,6 +117,28 @@ block content
           name='membershipExpiry',
           id='membershipExpiry',
           placeholder='Membership/Expiry',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='otherId') Other ID*
+      .col-sm-7
+        input.form-control(
+          type='otherId',
+          name='otherId',
+          id='otherId',
+          placeholder='Other ID',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='remarks') Remarks*
+      .col-sm-7
+        input.form-control(
+          type='remarks',
+          name='remarks',
+          id='remarks',
+          placeholder='Remarks',
           autofocus,
           required
         )

@@ -136,6 +136,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * Dashboard app routes
  */
 app.get('/dashboard', dashboardController.index);
+app.get('/dashboard/guest-logs', dashboardController.guestLogs);
+app.get('/dashboard/realtime-logs', dashboardController.realtimeLogs);
 /**
  * Error Handler.
  */

@@ -1,0 +1,108 @@
+extends ../layout
+
+block content
+  .page-header
+    include partials/header
+    h3 Supervisor Dashboard
+
+  p.lead Guest Logs
+  table.table.table-striped.table-hover.table-bordered
+    tr
+      th.text-center.col-sm-3 Name
+      th.text-center.col-sm-1 DOB
+      th.text-center.col-sm-1 NRIC/FIN
+      th.text-center.col-sm-2 Membership No
+      th.text-center.col-sm-2 Membership/Expiry
+      th.text-center.col-sm-1 Login
+      th.text-center.col-sm-1 Logut
+      th.text-center.col-sm-1 Successful?
+      th.text-center #
+    tr
+      td Giacomo Gullizoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td 02/02/2017 19:00
+      td 02/02/2017 21:00
+      td.text-center
+        input(type="checkbox", value="")
+      td
+        button.btn.btn-link(type='submit')
+          i.fa.fa-trash
+    tr
+      td Marco Botton
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td 02/02/2017 19:00
+      td 02/02/2017 21:00
+      td.text-center
+        input(type="checkbox", value="", checked)
+      td
+        button.btn.btn-link(type='submit')
+          i.fa.fa-trash
+    tr
+      td Mariah Maclachlan
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td 02/02/2017 19:00
+      td 02/02/2017 21:00
+      td.text-center
+        input(type="checkbox", value="")
+      td
+        button.btn.btn-link(type='submit')
+          i.fa.fa-trash
+    tr
+      td Valerie Liberty
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td 02/02/2017 19:00
+      td 02/02/2017 21:00
+      td.text-center
+        input(type="checkbox", value="", checked)
+      td
+        button.btn.btn-link(type='submit')
+          i.fa.fa-trash
+    tr
+      td Guido Jack Guilizzoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td 02/02/2017 19:00
+      td 02/02/2017 21:00
+      td.text-center
+        input(type="checkbox", value="")
+      td
+        button.btn.btn-link(type='submit')
+          i.fa.fa-trash
+  .row
+    nav.text-center(aria-label="Page navigation")
+      ul.pagination
+        li
+          a(href="#", aria-label="Previous")
+            span(aria-hidden="true") «
+        li
+          a(href="#") 1
+        li
+          a(href="#") 2
+        li
+          a(href="#") 3
+        li
+          a(href="#") 4
+        li
+          a(href="#") 5
+        li
+          a(href="#", aria-label="Next")
+            span(aria-hidden="true") »
+
+    .btn-export-excel
+      button.btn.btn-success(type='submit')
+        i.fa.fa-file-excel-o
+        | Export All Logs to Excel File

@@ -4,18 +4,17 @@ const Visitor = require('../models/Visitor');
  * GET /visitor
  * Get all visitor data
  */
-exports.getVisitors = (req, res) => {
+exports.getVisitors = (req, res, next) => {
   const query = {
     page: Number(req.query.page) || 1,
     limit: Number(req.query.limit) || 20
   };
   Visitor.paginate({}, query, (err, visitors) => {
     if (err) {
-      req.flash('errors', err);
-    } else {
-      res.json(visitors);
-      // todo: render all visitors page
+      return next(err);
     }
+    res.json(visitors);
+    // todo: render all visitors page
   });
 };
 
@@ -23,15 +22,14 @@ exports.getVisitors = (req, res) => {
  * GET /visitor/:id
  * Get visitor data with specified id
  */
-exports.getVisitor = (req, res) => {
+exports.getVisitor = (req, res, next) => {
   const id = req.params.id;
   Visitor.findById(id, (err, visitor) => {
     if (err) {
-      req.flash('errors', err);
-    } else {
-      res.json({ visitor });
-      // todo: render visitor detail page
+      return next(err);
     }
+    res.json({ visitor });
+    // todo: render visitor detail page
   });
 };
 
@@ -39,7 +37,7 @@ exports.getVisitor = (req, res) => {
  * POST /visitor
  * Create a new visitor data 
  */
-exports.postVisitor = (req, res) => {
+exports.postVisitor = (req, res, next) => {
   req.assert('name', 'Name cannot be blank').notEmpty();
   req.assert('dob', 'Date of birth cannot be blank').notEmpty();
   req.assert('nric', 'NRIC cannot be blank').notEmpty();
@@ -65,11 +63,10 @@ exports.postVisitor = (req, res) => {
 
     visitor.save((err) => {
       if (err) {
-        req.flash('errors', { msg: 'Error on creating visitor information.' });
-      } else {
-        req.flash('success', { msg: 'New visitor information has been created.' });
-        res.redirect('/visitor');
+        return next(err);
       }
+      req.flash('success', { msg: 'New visitor information has been created.' });
+      res.redirect('/visitor');
     });
   }
 };
@@ -78,20 +75,18 @@ exports.postVisitor = (req, res) => {
  * PUT /visitor/:id
  * Update visitor data with specified id
  */
-exports.putVisitor = (req, res) => {
+exports.putVisitor = (req, res, next) => {
   const id = req.params.id;
   const body = {
     otherFields: req.body.otherFields
   };
   Visitor.findByIdAndUpdate(id, body, (err, visitor) => {
     if (err) {
-      req.flash('errors', err);
-      res.redirect('/visitor');
-    } else {
-      visitor.otherFields = body.otherFields;
-      res.json({ visitor });
-      req.flash('success', { msg: 'Visitor information has been updated.' });
-      // todo: render all visitors page
+      return next(err);
     }
+    visitor.otherFields = body.otherFields;
+    res.json({ visitor });
+    req.flash('success', { msg: 'Visitor information has been updated.' });
+    // todo: render all visitors page
   });
 };

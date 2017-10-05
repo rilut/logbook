@@ -131,10 +131,10 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
-app.get('/visitor', visitorController.getVisitors);
-app.get('/visitor/:id', visitorController.getVisitor);
-app.put('/visitor/:id', visitorController.putVisitor);
-app.post('/visitor', visitorController.postVisitor);
+app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
+app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
+app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
 
 /**
  * Error Handler.

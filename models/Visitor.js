@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const paginate = require('mongoose-paginate');
 
 const visitorSchema = new mongoose.Schema({
   name: String,
@@ -13,6 +14,7 @@ const visitorSchema = new mongoose.Schema({
     value: String
   }]
 }, { timestamps: true });
+visitorSchema.plugin(paginate);
 
 const Visitor = mongoose.model('Visitor', visitorSchema);
 

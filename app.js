@@ -33,6 +33,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const visitorController = require('./controllers/visitor');
 
 /**
  * API keys and Passport configuration.
@@ -92,21 +93,21 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
-      !req.path.match(/^\/auth/) &&
-      !req.path.match(/\./)) {
+    req.path !== '/login' &&
+    req.path !== '/signup' &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)) {
     req.session.returnTo = req.path;
   } else if (req.user &&
-      req.path === '/account') {
+    req.path === '/account') {
     req.session.returnTo = req.path;
   }
   next();
 });
 
-let maxAge = 0
-if(process.env.ENV == 'prod') {
-  maxAge = 31557600000
+let maxAge = 0;
+if (process.env.ENV == 'prod') {
+  maxAge = 31557600000;
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
 
@@ -130,6 +131,10 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/visitor', visitorController.getVisitors);
+app.get('/visitor/:id', visitorController.getVisitor);
+app.put('/visitor/:id', visitorController.putVisitor);
+app.post('/visitor', visitorController.postVisitor);
 
 /**
  * Error Handler.

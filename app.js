@@ -41,6 +41,11 @@ const dashboardController = require('./controllers/dashboard');
 const passportConfig = require('./config/passport');
 
 /**
+ * Middlewares.
+ */
+const role = require('./middlewares/role');
+
+/**
  * Create Express server.
  */
 const app = express();
@@ -93,21 +98,21 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
-      !req.path.match(/^\/auth/) &&
-      !req.path.match(/\./)) {
+    req.path !== '/login' &&
+    req.path !== '/signup' &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)) {
     req.session.returnTo = req.path;
   } else if (req.user &&
-      req.path === '/account') {
+    req.path === '/account') {
     req.session.returnTo = req.path;
   }
   next();
 });
 
 let maxAge = 0
-if(process.env.ENV == 'prod') {
-  maxAge = 31557600000
+if (process.env.ENV === 'prod') {
+  maxAge = 31557600000;
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
 

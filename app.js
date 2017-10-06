@@ -33,6 +33,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const logController = require('./controllers/log');
 
 /**
  * API keys and Passport configuration.
@@ -105,7 +106,7 @@ app.use((req, res, next) => {
 });
 
 let maxAge = 0
-if(process.env.ENV == 'prod') {
+if(process.env.ENV === 'prod') {
   maxAge = 31557600000
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
@@ -130,6 +131,11 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/log', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/log/:id', passportConfig.isAuthenticated, logController.getLog);
+app.post('/log', passportConfig.isAuthenticated, logController.postLog);
+app.put('/log/:id', passportConfig.isAuthenticated, logController.putLog);
+app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
 
 /**
  * Error Handler.

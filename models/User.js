@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
-  role: { type: String, enum: ['Operator', 'Supervisor', 'Administrator']},
+  role: { type: String, enum: ['Operator', 'Supervisor', 'Administrator'] },
   password: String,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema({
    * Consider deprecating profile field to make things simpler.
    */
   profile: {
-    name: String,
-    gender: String,
-    location: String,
-    website: String,
     picture: String
   }
 }, { timestamps: true });

@@ -34,11 +34,17 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
 const visitorController = require('./controllers/visitor');
+const dashboardController = require('./controllers/dashboard');
 
 /**
  * API keys and Passport configuration.
  */
 const passportConfig = require('./config/passport');
+
+/**
+ * Middlewares.
+ */
+const role = require('./middlewares/role');
 
 /**
  * Create Express server.
@@ -106,7 +112,7 @@ app.use((req, res, next) => {
 });
 
 let maxAge = 0;
-if (process.env.ENV == 'prod') {
+if (process.env.ENV === 'prod') {
   maxAge = 31557600000;
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
@@ -136,6 +142,13 @@ app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVis
 app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
 app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
 
+/**
+ * Dashboard app routes
+ */
+app.get('/dashboard', dashboardController.index);
+app.get('/dashboard/guest-logs', dashboardController.guestLogs);
+app.get('/dashboard/realtime-logs', dashboardController.realtimeLogs);
+app.get('/dashboard/change-password', dashboardController.changePassword);
 /**
  * Error Handler.
  */

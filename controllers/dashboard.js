@@ -39,4 +39,8 @@ exports.editFormById = (req, res) => {
   });
 };
 
-// 
+exports.users = (req, res) => {
+  res.render('dashboard/users', {
+    title: 'Manage Users'
+  });
+};

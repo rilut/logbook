@@ -4,7 +4,7 @@
  */
 exports.index = (req, res) => {
   res.render('dashboard/approve', {
-    title: 'Approve Non-Members'
+    title: 'Manage Non-Members'
   });
 };
 
@@ -17,5 +17,11 @@ exports.guestLogs = (req, res) => {
 exports.realtimeLogs = (req, res) => {
   res.render('dashboard/realtime-logs', {
     title: 'Realtime Logs'
+  });
+};
+
+exports.changePassword = (req, res) => {
+  res.render('dashboard/change-password', {
+    title: 'Change Password'
   });
 };

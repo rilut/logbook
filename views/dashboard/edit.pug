@@ -1,0 +1,174 @@
+extends ../layout
+
+block content
+  .page-header
+    include partials/header
+    h3 Supervisor Dashboard
+
+  p.lead Approved Non-Members
+  table.table.table-striped.table-hover.table-bordered
+    tr
+      th.text-center.col-sm-3 Name
+      th.text-center.col-sm-1 DOB
+      th.text-center.col-sm-2 NRIC/FIN
+      th.text-center.col-sm-1 Membership No.
+      th.text-center.col-sm-2 Membership/Expiry
+      th.text-center.col-sm-1 Other ID
+      th.text-center.col-sm-1 Remarks
+      th.text-center.col-sm-1 Favorite Color
+      th.text-center #
+    tr
+      td Giacomo Gullizoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+      td &nbsp;
+      td
+        a.btn.btn-link(href='/dashboard/edit/1')
+          i.fa.fa-edit
+    tr
+      td Marco Botton
+      td 01/02/1999
+      td S1234567X
+      td &nbsp;
+      td &nbsp;
+      td S1234567X
+      td Contractor
+      td &nbsp;
+      td
+        a.btn.btn-link(href='/dashboard/edit/2')
+          i.fa.fa-edit
+    tr
+      td Mariah Maclachlan
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+      td &nbsp;
+      td
+        a.btn.btn-link(href='/dashboard/edit/3')
+          i.fa.fa-edit
+    tr
+      td Valerie Liberty
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+      td &nbsp;
+      td
+        a.btn.btn-link(href='/dashboard/edit/4')
+          i.fa.fa-edit
+    tr
+      td Guido Jack Guilizzoni
+      td 01/02/1999
+      td S1234567X
+      td 1234567
+      td 02/02/2018
+      td &nbsp;
+      td &nbsp;
+      td &nbsp;
+      td
+        a.btn.btn-link(href='/dashboard/edit/5')
+          i.fa.fa-edit
+
+  p.lead Approved Non-Members Registration
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='name') Name*
+      .col-sm-7
+        input.form-control(
+          type='name',
+          name='name',
+          id='name',
+          placeholder='Name',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='dob') DOB*
+      .col-sm-7
+        input.form-control(
+          type='dob',
+          name='dob',
+          id='dob',
+          placeholder='Date Of Birth',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='nric') NRIC/FIN*
+      .col-sm-7
+        input.form-control(
+          type='nric',
+          name='nric',
+          id='nric',
+          placeholder='NRIC/FIN',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membership') Membership No.*
+      .col-sm-7
+        input.form-control(
+          type='membership',
+          name='membership',
+          id='membership',
+          placeholder='Membership No.',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membershipExpiry') Membership/Expiry*
+      .col-sm-7
+        input.form-control(
+          type='membershipExpiry',
+          name='membershipExpiry',
+          id='membershipExpiry',
+          placeholder='Membership/Expiry',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='otherId') Other ID*
+      .col-sm-7
+        input.form-control(
+          type='otherId',
+          name='otherId',
+          id='otherId',
+          placeholder='Other ID',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='remarks') Remarks*
+      .col-sm-7
+        input.form-control(
+          type='remarks',
+          name='remarks',
+          id='remarks',
+          placeholder='Remarks',
+          autofocus,
+          required
+        )
+    .form-group
+      label.col-sm-3.control-label(for='favoriteColor') Favorite Color*
+      .col-sm-7
+        input.form-control(
+          type='favoriteColor',
+          name='favoriteColor',
+          id='favoriteColor',
+          placeholder='Favorite Color',
+          autofocus,
+          required
+        )
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.col-sm-3.btn.btn-primary(type='submit') Submit

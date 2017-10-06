@@ -1,0 +1,107 @@
+extends ../layout
+
+block content
+  .page-header
+    include partials/header
+    h3 Supervisor Dashboard
+
+  p.lead Edit Form
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='name') Name*
+      .col-sm-7
+        input.form-control(
+          type='name',
+          name='name',
+          id='name',
+          placeholder='Name',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='dob') DOB*
+      .col-sm-7
+        input.form-control(
+          type='dob',
+          name='dob',
+          id='dob',
+          placeholder='Date Of Birth',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='nric') NRIC/FIN*
+      .col-sm-7
+        input.form-control(
+          type='nric',
+          name='nric',
+          id='nric',
+          placeholder='NRIC/FIN',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membership') Membership No.*
+      .col-sm-7
+        input.form-control(
+          type='membership',
+          name='membership',
+          id='membership',
+          placeholder='Membership No.',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='membershipExpiry') Membership/Expiry*
+      .col-sm-7
+        input.form-control(
+          type='membershipExpiry',
+          name='membershipExpiry',
+          id='membershipExpiry',
+          placeholder='Membership/Expiry',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='otherId') Other ID*
+      .col-sm-7
+        input.form-control(
+          type='otherId',
+          name='otherId',
+          id='otherId',
+          placeholder='Other ID',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='remarks') Remarks*
+      .col-sm-7
+        input.form-control(
+          type='remarks',
+          name='remarks',
+          id='remarks',
+          placeholder='Remarks',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='favoriteColor') Favorite Color*
+      .col-sm-7
+        input.form-control(
+          type='favoriteColor',
+          name='favoriteColor',
+          id='favoriteColor',
+          placeholder='Favorite Color',
+          autofocus,
+          required
+        )
+      .col-sm-1
+        button.btn.btn-small.btn-danger(
+          type='button',
+          onclick='return confirm("This will delete all values stored in this field. Would you still like to proceed?");'
+        )
+          .fa.fa-trash
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.btn.btn-default(type='button') Add a new text field
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.btn.btn-primary(
+          type='submit',
+          style={'margin-right': '10px'},
+        ) Done Editing
+        a.btn.btn-default(href='/dashboard/edit') Cancel

@@ -25,3 +25,18 @@ exports.changePassword = (req, res) => {
     title: 'Change Password'
   });
 };
+
+exports.editForm = (req, res) => {
+  res.render('dashboard/edit', {
+    title: 'Edit Form'
+  });
+};
+
+exports.editFormById = (req, res) => {
+  const id = req.params.id;
+  res.render('dashboard/edit-form', {
+    title: `Edit Form ${id}`
+  });
+};
+
+// 

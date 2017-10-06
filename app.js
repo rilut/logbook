@@ -34,11 +34,17 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
 const logController = require('./controllers/log');
+const dashboardController = require('./controllers/dashboard');
 
 /**
  * API keys and Passport configuration.
  */
 const passportConfig = require('./config/passport');
+
+/**
+ * Middlewares.
+ */
+const role = require('./middlewares/role');
 
 /**
  * Create Express server.
@@ -93,21 +99,21 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
-      !req.path.match(/^\/auth/) &&
-      !req.path.match(/\./)) {
+    req.path !== '/login' &&
+    req.path !== '/signup' &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)) {
     req.session.returnTo = req.path;
   } else if (req.user &&
-      req.path === '/account') {
+    req.path === '/account') {
     req.session.returnTo = req.path;
   }
   next();
 });
 
-let maxAge = 0
-if(process.env.ENV === 'prod') {
-  maxAge = 31557600000
+let maxAge = 0;
+if (process.env.ENV === 'prod') {
+  maxAge = 31557600000;
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
 
@@ -137,6 +143,13 @@ app.post('/log', passportConfig.isAuthenticated, logController.postLog);
 app.put('/log/:id', passportConfig.isAuthenticated, logController.putLog);
 app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
 
+/**
+ * Dashboard app routes
+ */
+app.get('/dashboard', dashboardController.index);
+app.get('/dashboard/guest-logs', dashboardController.guestLogs);
+app.get('/dashboard/realtime-logs', dashboardController.realtimeLogs);
+app.get('/dashboard/change-password', dashboardController.changePassword);
 /**
  * Error Handler.
  */

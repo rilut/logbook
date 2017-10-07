@@ -250,6 +250,10 @@ async@2.1.4:
   dependencies:
     lodash "^4.14.0"
 
+async@^1.5.0:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
+
 async@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/async/-/async-1.0.0.tgz#f8fc04ca3a13784ade9e1641af98578cfbd647a9"
@@ -329,6 +333,10 @@ block-stream@*:
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
   dependencies:
     inherits "~2.0.0"
+
+bluebird@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.0.5.tgz#2ff9d07c9b3edb29d6d280fe07528365e7ecd392"
 
 bluebird@^2.10.2:
   version "2.11.0"
@@ -1323,6 +1331,10 @@ eyes@0.1.x:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/eyes/-/eyes-0.1.8.tgz#62cf120234c683785d902348a800ef3e0cc20bc0"
 
+faker@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
+
 fast-deep-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
@@ -2046,6 +2058,12 @@ json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
+json2mongo@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/json2mongo/-/json2mongo-1.1.0.tgz#df7b3a28148d4b988d7a59dcc2a4a7046f4d1056"
+  dependencies:
+    mongodb "^2.2.11"
+
 json3@3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
@@ -2410,6 +2428,14 @@ mocha@^3.5.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
+mongo-seed@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/mongo-seed/-/mongo-seed-0.6.0.tgz#f3f20d183d154afc11e43f3ff4ba8537a45c881e"
+  dependencies:
+    async "^1.5.0"
+    json2mongo "^1.0.1"
+    mongodb "^2.0.52"
+
 mongodb-core@2.1.15:
   version "2.1.15"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.15.tgz#841f53b87ffff4c7458189c35c8ae827e1169764"
@@ -2417,13 +2443,19 @@ mongodb-core@2.1.15:
     bson "~1.0.4"
     require_optional "~1.0.0"
 
-mongodb@2.2.31, "mongodb@>= 1.2.0 <3.0.0":
+mongodb@2.2.31, "mongodb@>= 1.2.0 <3.0.0", mongodb@^2.0.52, mongodb@^2.2.11:
   version "2.2.31"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.31.tgz#1940445c661e19217bb3bf8245d9854aaef548db"
   dependencies:
     es6-promise "3.2.1"
     mongodb-core "2.1.15"
     readable-stream "2.2.7"
+
+mongoose-paginate@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/mongoose-paginate/-/mongoose-paginate-5.0.3.tgz#d7ae49ed5bf64f1f7af7620ea865b67058c55371"
+  dependencies:
+    bluebird "3.0.5"
 
 mongoose@^4.11.7:
   version "4.12.0"

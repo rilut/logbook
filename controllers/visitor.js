@@ -10,7 +10,7 @@ exports.getVisitors = (req, res, next) => {
     limit: Number(req.query.limit) || 20,
     sort: { createdAt: -1 }
   };
-  Visitor.paginate({}, query, (err, visitors) => {
+  Visitor.paginate({ deleted: false }, query, (err, visitors) => {
     if (err) {
       return next(err);
     }

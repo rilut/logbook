@@ -17,6 +17,8 @@
           a(href='/contact') Contact
         li
           a(href='/status') Status
+        li
+          a(href='/dashboard/logs') Logs
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title === 'Login') ? 'active' : undefined)
@@ -37,8 +39,6 @@
                 a(href='/account') My Account
               li
                 a(href='/dashboard') Dashboard
-              li
-                a(href='/dashboard/realtime-logs') Realtime Logs
               li.divider
               li
                 a(href='/logout') Logout

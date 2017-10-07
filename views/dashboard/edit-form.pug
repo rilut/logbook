@@ -3,60 +3,9 @@ extends ../layout
 block content
   .page-header
     include partials/header
-    h3 Operator Dashboard
+    h3 Supervisor Dashboard
 
-  p.lead Approved Non-Members
-  table.table.table-striped.table-hover.table-bordered
-    tr
-      th.text-center.col-sm-3 Name
-      th.text-center.col-sm-1 DOB
-      th.text-center.col-sm-2 NRIC/FIN
-      th.text-center.col-sm-2 Membership No.
-      th.text-center.col-sm-2 Membership/Expiry
-      th.text-center.col-sm-1 Other ID
-      th.text-center.col-sm-1 Remarks
-    tr
-      td Giacomo Gullizoni
-      td 01/02/1999
-      td S1234567X
-      td 1234567
-      td 02/02/2018
-      td &nbsp;
-      td &nbsp;
-    tr
-      td Marco Botton
-      td 01/02/1999
-      td S1234567X
-      td &nbsp;
-      td &nbsp;
-      td S1234567X
-      td Contractor
-    tr
-      td Mariah Maclachlan
-      td 01/02/1999
-      td S1234567X
-      td 1234567
-      td 02/02/2018
-      td &nbsp;
-      td &nbsp;
-    tr
-      td Valerie Liberty
-      td 01/02/1999
-      td S1234567X
-      td 1234567
-      td 02/02/2018
-      td &nbsp;
-      td &nbsp;
-    tr
-      td Guido Jack Guilizzoni
-      td 01/02/1999
-      td S1234567X
-      td 1234567
-      td 02/02/2018
-      td &nbsp;
-      td &nbsp;
-
-  p.lead Add a new Approved Non-Members
+  p.lead Edit Form
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
@@ -67,19 +16,17 @@ block content
           name='name',
           id='name',
           placeholder='Name',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='dob') DOB*
-      .col-sm-7.datepicker
+      .col-sm-7
         input.form-control(
           type='text',
           name='dob',
           id='dob',
           placeholder='Date Of Birth',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='nric') NRIC/FIN*
@@ -89,8 +36,7 @@ block content
           name='nric',
           id='nric',
           placeholder='NRIC/FIN',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='membership') Membership No.*
@@ -100,19 +46,17 @@ block content
           name='membership',
           id='membership',
           placeholder='Membership No.',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='membershipExpiry') Membership/Expiry*
-      .col-sm-7.datepicker
+      .col-sm-7
         input.form-control(
           type='text',
           name='membershipExpiry',
           id='membershipExpiry',
           placeholder='Membership/Expiry',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='otherId') Other ID*
@@ -122,8 +66,7 @@ block content
           name='otherId',
           id='otherId',
           placeholder='Other ID',
-          autofocus,
-          required
+          disabled
         )
     .form-group
       label.col-sm-3.control-label(for='remarks') Remarks*
@@ -133,9 +76,32 @@ block content
           name='remarks',
           id='remarks',
           placeholder='Remarks',
+          disabled
+        )
+    .form-group
+      label.col-sm-3.control-label(for='favoriteColor') Favorite Color*
+      .col-sm-7
+        input.form-control(
+          type='text',
+          name='favoriteColor',
+          id='favoriteColor',
+          placeholder='Favorite Color',
           autofocus,
           required
         )
+      .col-sm-1
+        button.btn.btn-small.btn-danger(
+          type='button',
+          onclick='return confirm("This will delete all values stored in this field. Would you still like to proceed?");'
+        )
+          .fa.fa-trash
     .form-group
       .col-sm-offset-3.col-sm-7
-        button.col-sm-3.btn.btn-primary(type='submit') Submit
+        button.btn.btn-default(type='button') Add a new text field
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.btn.btn-primary(
+          type='submit',
+          style={'margin-right': '10px'},
+        ) Done Editing
+        a.btn.btn-default(href='/dashboard/edit') Cancel

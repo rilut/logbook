@@ -25,3 +25,15 @@ exports.changePassword = (req, res) => {
     title: 'Change Password'
   });
 };
+
+exports.editForm = (req, res) => {
+  res.render('dashboard/edit-form', {
+    title: 'Edit Form'
+  });
+};
+
+exports.users = (req, res) => {
+  res.render('dashboard/users', {
+    title: 'Manage Users'
+  });
+};

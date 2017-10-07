@@ -142,7 +142,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  */
 app.get('/dashboard', dashboardController.index);
 app.get('/dashboard/guest-logs', dashboardController.guestLogs);
-app.get('/dashboard/realtime-logs', dashboardController.realtimeLogs);
+app.get('/dashboard/logs', dashboardController.realtimeLogs);
 app.get('/dashboard/change-password', dashboardController.changePassword);
 app.get('/dashboard/edit', dashboardController.editForm);
 app.get('/dashboard/users', dashboardController.users);

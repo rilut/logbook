@@ -418,6 +418,7 @@ exports.postUser = (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     role: req.body.role,
+    password: 12345678,
   }).save((err) => {
     if (err) {
       return next(err);

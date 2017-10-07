@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const paginate = require('mongoose-paginate');
+const softDelete = require('mongoose-delete');
 
 const visitorSchema = new mongoose.Schema({
   name: String,
@@ -14,7 +15,9 @@ const visitorSchema = new mongoose.Schema({
     value: String
   }]
 }, { timestamps: true });
+
 visitorSchema.plugin(paginate);
+visitorSchema.plugin(softDelete, { deletedAt: true, deletedBy: true });
 
 const Visitor = mongoose.model('Visitor', visitorSchema);
 

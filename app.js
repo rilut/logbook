@@ -149,6 +149,7 @@ app.get('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, v
 app.put('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
 app.put('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);
 app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
+app.delete('/visitor/:id', passportConfig.isAuthenticated, visitorController.removeVisitor);
 app.delete('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
 
 /**

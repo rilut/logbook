@@ -131,3 +131,20 @@ exports.removeFieldVisitor = (req, res, next) => {
     // todo: render all visitors page
   });
 };
+
+/**
+ * DEL /visitor/:id
+ * Remove visitor data with specified id
+ */
+exports.removeVisitor = (req, res, next) => {
+  const id = req.params.id;
+  Visitor.findById(id, (err, visitor) => {
+    if (err) {
+      return next(err);
+    }
+    visitor.delete(req.user._id, () => {
+      res.json({ visitor });
+      // todo: render visitor detail page
+    });
+  });
+};

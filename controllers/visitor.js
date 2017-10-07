@@ -1,4 +1,5 @@
 const Visitor = require('../models/Visitor');
+const mongoose = require('mongoose');
 
 /**
  * GET /visitor
@@ -82,6 +83,47 @@ exports.putVisitor = (req, res, next) => {
     otherFields: req.body.otherFields
   };
   Visitor.findByIdAndUpdate(id, body, { new: true }, (err, visitor) => {
+    if (err) {
+      return next(err);
+    }
+    res.json({ visitor });
+    req.flash('success', { msg: 'Visitor information has been updated.' });
+    // todo: render all visitors page
+  });
+};
+
+/**
+ * PUT /visitor/:id/field
+ * Add a new field with it's value to a visitor with specified id
+ */
+exports.addFieldVisitor = (req, res, next) => {
+  const id = req.params.id;
+  const newField = {
+    label: req.body.label,
+    value: req.body.value
+  };
+  Visitor.findByIdAndUpdate(id, {
+    $addToSet: { otherFields: newField }
+  }, { new: true }, (err, visitor) => {
+    if (err) {
+      return next(err);
+    }
+    res.json({ visitor });
+    req.flash('success', { msg: 'Visitor information has been updated.' });
+    // todo: render all visitors page
+  });
+};
+
+/**
+ * DEL /visitor/:id/field
+ * Remove an existing field with it's value from a visitor with specified id
+ */
+exports.removeFieldVisitor = (req, res, next) => {
+  const id = req.params.id;
+  const label = req.body.label;
+  Visitor.findByIdAndUpdate(id, {
+    $pull: { otherFields: { label } }
+  }, { new: true }, (err, visitor) => {
     if (err) {
       return next(err);
     }

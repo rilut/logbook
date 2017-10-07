@@ -145,7 +145,6 @@ app.get('/dashboard/guest-logs', dashboardController.guestLogs);
 app.get('/dashboard/realtime-logs', dashboardController.realtimeLogs);
 app.get('/dashboard/change-password', dashboardController.changePassword);
 app.get('/dashboard/edit', dashboardController.editForm);
-app.get('/dashboard/edit/:id', dashboardController.editFormById);
 app.get('/dashboard/users', dashboardController.users);
 /**
  * Error Handler.

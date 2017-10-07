@@ -27,15 +27,8 @@ exports.changePassword = (req, res) => {
 };
 
 exports.editForm = (req, res) => {
-  res.render('dashboard/edit', {
-    title: 'Edit Form'
-  });
-};
-
-exports.editFormById = (req, res) => {
-  const id = req.params.id;
   res.render('dashboard/edit-form', {
-    title: `Edit Form ${id}`
+    title: 'Edit Form'
   });
 };
 

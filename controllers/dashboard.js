@@ -31,9 +31,3 @@ exports.editForm = (req, res) => {
     title: 'Edit Form'
   });
 };
-
-exports.users = (req, res) => {
-  res.render('dashboard/users', {
-    title: 'Manage Users'
-  });
-};

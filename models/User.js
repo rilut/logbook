@@ -23,6 +23,8 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+userSchema.plugin(paginate);
+
 /**
  * Password hash middleware.
  */

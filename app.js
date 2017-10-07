@@ -33,6 +33,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const logController = require('./controllers/log');
 const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
 
@@ -137,6 +138,11 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/log', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/log/:id', passportConfig.isAuthenticated, logController.getLog);
+app.post('/log', passportConfig.isAuthenticated, logController.postLog);
+app.put('/log/:id', passportConfig.isAuthenticated, logController.putLog);
+app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
 app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
 app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
 app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);

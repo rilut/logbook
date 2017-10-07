@@ -34,6 +34,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
 const logController = require('./controllers/log');
+const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
 
 /**
@@ -142,6 +143,10 @@ app.get('/log/:id', passportConfig.isAuthenticated, logController.getLog);
 app.post('/log', passportConfig.isAuthenticated, logController.postLog);
 app.put('/log/:id', passportConfig.isAuthenticated, logController.putLog);
 app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
+app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
+app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
+app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
 
 /**
  * Dashboard app routes

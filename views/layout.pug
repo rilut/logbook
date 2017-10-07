@@ -9,6 +9,7 @@ html
     title #{title} - Member-Only Room Logbook
     link(rel='shortcut icon', href='/favicon.png')
     link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css')
 
   body
     include partials/header
@@ -22,6 +23,11 @@ html
     script(src='/js/lib/jquery-3.1.1.min.js')
     script(src='/js/lib/bootstrap.min.js')
     script(src='/js/main.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js')
+    script.
+      $('.datepicker input').datepicker({
+        todayHighlight: true,
+      });
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID
     script.

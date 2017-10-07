@@ -101,7 +101,7 @@ exports.putLog = (req, res, next) => {
  */
 exports.deleteLog = (req, res, next) => {
   const id = req.params.id;
-  Log.findByIdAndRemove(id, { new: true }, (err, log) => {
+  Log.findByIdAndRemove(id, (err, log) => {
     if (err) {
       return next(err);
     }

@@ -408,3 +408,21 @@ exports.getUsersDatatable = (req, res) => {
     res.send(data);
   });
 };
+
+/**
+ * POST /users
+ * Create a new user data
+ */
+exports.postUser = (req, res, next) => {
+  new User({
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  }).save((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash('success', { msg: 'New user has been created.' });
+    res.redirect('/dashboard/users');
+  });
+};

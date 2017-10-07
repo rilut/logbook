@@ -6,15 +6,16 @@ const UserValidator = () => {
       .isEmail().withMessage('Email not valid');
     req.assert('role', 'Role cannot be blank').notEmpty()
       .isRolesName()
-      .withMessage('Only accept Operator, Supervisor, or Administrator');
+      .withMessage('Role only accept Operator, Supervisor, or Administrator');
 
-    req.asyncValidationErrors(true).then(() => {
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      res.redirect('/dashboard/users');
+    } else {
       return next();
-    }).catch((errors) => {
-      console.log(errors);
-      req.flash('errors', { msg: 'Create user failed' });
-      return res.redirect('/dashboard/users');
-    });
+    }
   };
 
   return {

@@ -13,7 +13,8 @@
     "dev": "nodemon app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "eslint": "eslint **/*.js"
+    "eslint": "eslint **/*.js",
+    "seed": "node seeds"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
@@ -30,7 +31,9 @@
     "express-session": "^1.15.5",
     "express-status-monitor": "^1.0.0",
     "express-validator": "^3.2.1",
+    "faker": "^4.1.0",
     "lusca": "^1.5.1",
+    "mongo-seed": "^0.6.0",
     "mongoose": "^4.11.7",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.8.2",

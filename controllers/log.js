@@ -27,7 +27,7 @@ exports.getLogs = (req, res, next) => {
  */
 exports.getLog = (req, res, next) => {
   const id = req.params.id;
-  Log.findById(id, { populate: 'visitor' }, (err, log) => {
+  Log.findById(id).populate('visitor').exec((err, log) => {
     if (err) {
       return next(err);
     }

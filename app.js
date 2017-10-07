@@ -146,7 +146,9 @@ app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
 app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
 app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
 app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
+app.put('/visitor/:id/field', passportConfig.isAuthenticated, visitorController.addFieldVisitor);
 app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
+app.delete('/visitor/:id/field', passportConfig.isAuthenticated, visitorController.removeFieldVisitor);
 
 /**
  * Dashboard app routes

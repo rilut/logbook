@@ -9,7 +9,8 @@ exports.getLogs = (req, res, next) => {
   const query = {
     page: Number(req.query.page) || 1,
     limit: Number(req.query.limit) || 20,
-    sort: { createdAt: -1 }
+    sort: { createdAt: -1 },
+    populate: 'visitor'
   };
   Log.paginate({}, query, (err, logs) => {
     if (err) {
@@ -26,7 +27,7 @@ exports.getLogs = (req, res, next) => {
  */
 exports.getLog = (req, res, next) => {
   const id = req.params.id;
-  Log.findById(id, (err, log) => {
+  Log.findById(id, { populate: 'visitor' }, (err, log) => {
     if (err) {
       return next(err);
     }
@@ -48,7 +49,7 @@ exports.postLog = (req, res, next) => {
     req.flash('errors', errors);
     res.redirect('/');
   } else {
-    Visitor.findOne({ nric: req.body.nric }, (err, visitor) => {
+    Visitor.findOne({ nric: req.body.nric }, { populate: 'visitor' }, (err, visitor) => {
       if (err) {
         return next(err);
       }
@@ -84,7 +85,7 @@ exports.putLog = (req, res, next) => {
     timeOut: req.body.timeOut,
     loginSuccessful: req.body.loginSuccessful
   };
-  Log.findByIdAndUpdate(id, body, { new: true }, (err, log) => {
+  Log.findByIdAndUpdate(id, body, { populate: 'visitor', new: true }, (err, log) => {
     if (err) {
       return next(err);
     }

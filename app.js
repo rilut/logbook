@@ -45,6 +45,7 @@ const passportConfig = require('./config/passport');
 /**
  * Middlewares.
  */
+const objectId = require('./middlewares/objectId');
 const role = require('./middlewares/role');
 
 /**
@@ -139,16 +140,16 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.get('/log', passportConfig.isAuthenticated, logController.getLogs);
-app.get('/log/:id', passportConfig.isAuthenticated, logController.getLog);
+app.get('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
 app.post('/log', passportConfig.isAuthenticated, logController.postLog);
-app.put('/log/:id', passportConfig.isAuthenticated, logController.putLog);
-app.delete('/log/:id', passportConfig.isAuthenticated, logController.deleteLog);
+app.put('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
+app.delete('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.deleteLog);
 app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
-app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
-app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
-app.put('/visitor/:id/field', passportConfig.isAuthenticated, visitorController.addFieldVisitor);
+app.get('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
+app.put('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
+app.put('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);
 app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
-app.delete('/visitor/:id/field', passportConfig.isAuthenticated, visitorController.removeFieldVisitor);
+app.delete('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
 
 /**
  * Dashboard app routes

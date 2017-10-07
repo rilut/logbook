@@ -1,5 +1,4 @@
 const Visitor = require('../models/Visitor');
-const mongoose = require('mongoose');
 
 /**
  * GET /visitor

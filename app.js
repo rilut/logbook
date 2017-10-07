@@ -33,6 +33,7 @@ dotenv.load({ path: '.env' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const contactController = require('./controllers/contact');
+const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
 
 /**
@@ -110,7 +111,7 @@ app.use((req, res, next) => {
   next();
 });
 
-let maxAge = 0
+let maxAge = 0;
 if (process.env.ENV === 'prod') {
   maxAge = 31557600000;
 }
@@ -136,6 +137,10 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/visitor/:id', passportConfig.isAuthenticated, visitorController.getVisitor);
+app.put('/visitor/:id', passportConfig.isAuthenticated, visitorController.putVisitor);
+app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
 
 /**
  * Dashboard app routes

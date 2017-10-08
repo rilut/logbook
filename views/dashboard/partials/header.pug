@@ -1,11 +1,9 @@
 ul.nav.nav-pills.pull-right(role="tablist")
   li(class=(title === 'Guest Logs') ? 'active' : undefined, role="presentation")
-    a(href="/dashboard/guest-logs") Guest Logs
+    a(href="/logs") Guest Logs
   li(class=(title === 'Manage Non-Members') ? 'active' : undefined, role="presentation")
-    a(href="/dashboard") Manage Non-Members
+    a(href="/non-members") Manage Non-Members
   li(class=(title.indexOf('Edit Form') > -1) ? 'active' : undefined, role="presentation")
-    a(href="/dashboard/edit") Edit Form
-  li(class=(title === 'Change Password') ? 'active' : undefined, role="presentation")
-    a(href="/dashboard/change-password") Change Password
+    a(href="/registration-form") Edit Form
   li(class=(title === 'Manage Users') ? 'active' : undefined, role="presentation")
-    a(href="/dashboard/users") Manage Users
+    a(href="/users") Manage Users

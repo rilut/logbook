@@ -16,8 +16,10 @@ exports.getLogs = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json(logs);
-    // todo: render all logs page
+    res.render('dashboard/guest-logs', {
+      title: 'Guest Logs',
+      logs,
+    });
   });
 };
 
@@ -65,7 +67,7 @@ exports.postLog = (req, res, next) => {
             return next(err);
           }
           req.flash('success', { msg: 'New visitor login has been logged.' });
-          res.redirect('/log');
+          res.redirect('/logs');
         });
       } else {
         req.flash('errors', { msg: 'Visitor information doesn\'t exist yet.' });
@@ -89,8 +91,9 @@ exports.putLog = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json({ log });
+    // res.json({ log });
     req.flash('success', { msg: 'Visitor information has been updated.' });
+    res.redirect('/logs');
     // todo: render all visitors page
   });
 };
@@ -105,8 +108,9 @@ exports.deleteLog = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json({ log });
+    // res.json({ log });
     req.flash('success', { msg: 'Log has been deleted.' });
+    res.redirect('/logs');
     // todo: render all visitors page
   });
 };

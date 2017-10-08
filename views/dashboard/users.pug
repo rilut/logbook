@@ -3,7 +3,7 @@ extends ../layout
 block content
   .page-header
     include partials/header
-    h3 Admin Dashboard
+    h3 Dashboard
 
   p.lead Users
   table.table.table-striped.table-hover.table-bordered
@@ -50,7 +50,7 @@ block content
         )
           i.fa.fa-trash
 
-  p.lead Add a New Approved Non-Member
+  p.lead Add a User
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group

@@ -10,7 +10,7 @@ exports.getVisitors = (req, res, next) => {
     limit: Number(req.query.limit) || 20,
     sort: { createdAt: -1 }
   };
-  Visitor.paginate({}, query, (err, visitors) => {
+  Visitor.paginate({ deleted: false || null }, query, (err, visitors) => {
     if (err) {
       return next(err);
     }
@@ -129,5 +129,22 @@ exports.removeFieldVisitor = (req, res, next) => {
     res.json({ visitor });
     req.flash('success', { msg: 'Visitor information has been updated.' });
     // todo: render all visitors page
+  });
+};
+
+/**
+ * DEL /visitor/:id
+ * Remove visitor data with specified id
+ */
+exports.removeVisitor = (req, res, next) => {
+  const id = req.params.id;
+  Visitor.findById(id, (err, visitor) => {
+    if (err) {
+      return next(err);
+    }
+    visitor.delete(req.user._id, () => {
+      res.json({ visitor });
+      // todo: render visitor detail page
+    });
   });
 };

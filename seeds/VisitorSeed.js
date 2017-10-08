@@ -1,4 +1,7 @@
 const faker = require('faker');
+const fs = require('fs');
+const mongoose = require('mongoose');
+const path = require('path');
 
 const randomNumber = (length) => {
   const min = 10 * (length - 1);
@@ -39,8 +42,15 @@ module.exports = () => {
 
   console.log(`Seeding ${fakeVisitorCount} visitors...`);
 
-  for (let i = 0; i < 1000; i++) {
+  const userSeedPath = path.resolve(`${__dirname}/generated/users.json`);
+  const userSeedRaw = fs.readFileSync(userSeedPath, 'utf-8');
+  const users = JSON.parse(userSeedRaw);
+
+  for (let i = 0; i < fakeVisitorCount; i++) {
+    const isDeleted = faker.random.boolean();
+
     fakeVisitors.push({
+      _id: mongoose.Types.ObjectId(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       dob: dob(),
       nric: nric(),
@@ -52,10 +62,23 @@ module.exports = () => {
         label: faker.random.word(),
         value: faker.random.word(),
       }],
+      deleted: isDeleted,
+      deletedAt: isDeleted ? faker.date.recent() : null,
+      deletedBy: isDeleted ? mongoose.Types.ObjectId(faker.random.arrayElement(users)._id) : null,
       createdAt: faker.date.past(),
       updatedAt: faker.date.recent(),
     });
   }
+
+  fs.writeFileSync(path.resolve(`${__dirname}/generated/visitors.json`),
+    JSON.stringify(fakeVisitors, null, 2),
+    (err) => {
+      if (err) {
+        return console.error(err);
+      }
+
+      console.log('The file was saved!');
+    });
 
   return {
     visitors: fakeVisitors,

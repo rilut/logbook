@@ -12,14 +12,10 @@ console.log(`Host: ${mongoHost}`);
 console.log(`Port: ${mongoPort}`);
 console.log(`DB name: ${dbName}`);
 
-const seeds = [
-  'UserSeed.js',
-  'VisitorSeed.js',
-];
-
-seeds.forEach((seed) => {
-  const seedPath = path.resolve(`${__dirname}/${seed}`);
-  mongoSeed.load(mongoHost, mongoPort, dbName, seedPath, 'function', (err) => {
-    console.error(err);
-  });
-});
+Promise.resolve(
+  mongoSeed.load(mongoHost, mongoPort, dbName, path.resolve(`${__dirname}/UserSeed.js`), 'function')
+).then(() =>
+  mongoSeed.load(mongoHost, mongoPort, dbName, path.resolve(`${__dirname}/VisitorSeed.js`), 'function')
+).then(() =>
+  mongoSeed.load(mongoHost, mongoPort, dbName, path.resolve(`${__dirname}/LogSeed.js`), 'function')
+);

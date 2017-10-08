@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const paginate = require('mongoose-paginate');
+const dataTable = require('mongoose-datatable');
+
+mongoose.plugin(dataTable.init);
 
 const logSchema = new mongoose.Schema({
   visitor: { type: mongoose.Schema.Types.ObjectId, ref: 'Visitor' },

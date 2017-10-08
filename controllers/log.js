@@ -2,29 +2,32 @@ const Log = require('../models/Log');
 const Visitor = require('../models/Visitor');
 
 /**
- * GET /log
+ * GET /logs
  * Get all visitors logs data
  */
 exports.getLogs = (req, res, next) => {
-  const query = {
-    page: Number(req.query.page) || 1,
-    limit: Number(req.query.limit) || 20,
-    sort: { createdAt: -1 },
-    populate: 'visitor'
-  };
-  Log.paginate({}, query, (err, logs) => {
-    if (err) {
-      return next(err);
-    }
-    res.render('dashboard/guest-logs', {
-      title: 'Guest Logs',
-      logs,
-    });
+  // const query = {
+  //   page: Number(req.query.page) || 1,
+  //   limit: Number(req.query.limit) || 20,
+  //   sort: { createdAt: -1 },
+  //   populate: 'visitor'
+  // };
+  // Log.paginate({}, query, (err, logs) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   res.render('dashboard/guest-logs', {
+  //     title: 'Guest Logs',
+  //     logs,
+  //   });
+  // });
+  res.render('dashboard/guest-logs', {
+    title: 'Guest Logs',
   });
 };
 
 /**
- * GET /log/:id
+ * GET /logs/:id
  * Get log data with specified id
  */
 exports.getLog = (req, res, next) => {
@@ -39,7 +42,7 @@ exports.getLog = (req, res, next) => {
 };
 
 /**
- * POST /log
+ * POST /logs
  * Create a new log data 
  */
 exports.postLog = (req, res, next) => {
@@ -77,7 +80,7 @@ exports.postLog = (req, res, next) => {
 };
 
 /**
- * PUT /log/:id
+ * PUT /logs/:id
  * Update log data with specified id
  */
 exports.putLog = (req, res, next) => {
@@ -99,7 +102,7 @@ exports.putLog = (req, res, next) => {
 };
 
 /**
- * DEL /log/:id
+ * DEL /logs/:id
  * Update log data with specified id
  */
 exports.deleteLog = (req, res, next) => {
@@ -112,5 +115,16 @@ exports.deleteLog = (req, res, next) => {
     req.flash('success', { msg: 'Log has been deleted.' });
     res.redirect('/logs');
     // todo: render all visitors page
+  });
+};
+
+
+/**
+ * GET /logs/datatable
+ */
+exports.getLogsDatatable = (req, res) => {
+  req.query.populate = 'visitor';
+  Log.dataTable(req.query, (err, data) => {
+    res.send(data);
   });
 };

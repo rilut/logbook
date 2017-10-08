@@ -139,28 +139,31 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
-app.get('/log', passportConfig.isAuthenticated, logController.getLogs);
-app.get('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
-app.post('/log', passportConfig.isAuthenticated, logController.postLog);
-app.put('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
-app.delete('/log/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.deleteLog);
-app.get('/visitor', passportConfig.isAuthenticated, visitorController.getVisitors);
-app.get('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
-app.put('/visitor/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
-app.put('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);
-app.post('/visitor', passportConfig.isAuthenticated, visitorController.postVisitor);
-app.delete('/visitor/:id', passportConfig.isAuthenticated, visitorController.removeVisitor);
-app.delete('/visitor/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
+
+app.get('/logs', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
+app.post('/logs', passportConfig.isAuthenticated, logController.postLog);
+app.put('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
+app.delete('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.deleteLog);
+
+app.get('/non-members', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
+app.put('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
+app.put('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);
+app.post('/non-members', passportConfig.isAuthenticated, visitorController.postVisitor);
+app.delete('/non-members/:id', passportConfig.isAuthenticated, visitorController.removeVisitor);
+app.delete('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
+
+app.get('/users', dashboardController.users);
 
 /**
  * Dashboard app routes
  */
-app.get('/dashboard', dashboardController.index);
-app.get('/dashboard/guest-logs', dashboardController.guestLogs);
-app.get('/dashboard/logs', dashboardController.realtimeLogs);
-app.get('/dashboard/change-password', dashboardController.changePassword);
-app.get('/dashboard/edit', dashboardController.editForm);
-app.get('/dashboard/users', dashboardController.users);
+// app.get('/dashboard', dashboardController.index);
+// app.get('/dashboard/guest-logs', dashboardController.guestLogs);
+// app.get('/dashboard/logs', dashboardController.realtimeLogs);
+// app.get('/dashboard/change-password', dashboardController.changePassword);
+app.get('/registration-form', dashboardController.editForm);
 /**
  * Error Handler.
  */

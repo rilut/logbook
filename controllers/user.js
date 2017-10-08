@@ -374,4 +374,25 @@ exports.postForgot = (req, res, next) => {
     .then(sendForgotPasswordEmail)
     .then(() => res.redirect('/forgot'))
     .catch(next);
+
+  /**
+   * GET /users
+   * Get all visitors logs data
+   */
+  exports.getUsers = (req, res, next) => {
+    const query = {
+      page: Number(req.query.page) || 1,
+      limit: Number(req.query.limit) || 20,
+      sort: { createdAt: -1 }
+    };
+    User.paginate({}, query, (err, users) => {
+      if (err) {
+        return next(err);
+      }
+      res.render('users', {
+        title: 'Manage Users',
+        users,
+      });
+    });
+  };
 };

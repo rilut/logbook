@@ -1,7 +1,7 @@
 const Visitor = require('../models/Visitor');
 
 /**
- * GET /visitor
+ * GET /non-members
  * Get all visitor data
  */
 exports.getVisitors = (req, res, next) => {
@@ -14,13 +14,15 @@ exports.getVisitors = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json(visitors);
-    // todo: render all visitors page
+    res.render('dashboard/non-members', {
+      title: 'Manage Non-Members',
+      nonMembers: visitors,
+    });
   });
 };
 
 /**
- * GET /visitor/:id
+ * GET /non-members/:id
  * Get visitor data with specified id
  */
 exports.getVisitor = (req, res, next) => {
@@ -35,7 +37,7 @@ exports.getVisitor = (req, res, next) => {
 };
 
 /**
- * POST /visitor
+ * POST /non-members
  * Create a new visitor data 
  */
 exports.postVisitor = (req, res, next) => {
@@ -67,13 +69,13 @@ exports.postVisitor = (req, res, next) => {
         return next(err);
       }
       req.flash('success', { msg: 'New visitor information has been created.' });
-      res.redirect('/visitor');
+      res.redirect('/non-members');
     });
   }
 };
 
 /**
- * PUT /visitor/:id
+ * PUT /non-members/:id
  * Update visitor data with specified id
  */
 exports.putVisitor = (req, res, next) => {
@@ -92,7 +94,7 @@ exports.putVisitor = (req, res, next) => {
 };
 
 /**
- * PUT /visitor/:id/field
+ * PUT /non-members/:id/field
  * Add a new field with it's value to a visitor with specified id
  */
 exports.addFieldVisitor = (req, res, next) => {
@@ -114,7 +116,7 @@ exports.addFieldVisitor = (req, res, next) => {
 };
 
 /**
- * DEL /visitor/:id/field
+ * DEL /non-members/:id/field
  * Remove an existing field with it's value from a visitor with specified id
  */
 exports.removeFieldVisitor = (req, res, next) => {
@@ -133,7 +135,7 @@ exports.removeFieldVisitor = (req, res, next) => {
 };
 
 /**
- * DEL /visitor/:id
+ * DEL /non-members/:id
  * Remove visitor data with specified id
  */
 exports.removeVisitor = (req, res, next) => {

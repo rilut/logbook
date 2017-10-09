@@ -17,7 +17,6 @@ exports.getFields = (req, res, next) => {
   });
 };
 
-
 /**
  * POST /field
  * Create a new field data 
@@ -54,19 +53,18 @@ exports.postField = (req, res, next) => {
         return next(err);
       }
 
-      req.flash('success', { msg: 'New Field has been added.' });
+      req.flash('success', { msg: 'New Field(s) has been added.' });
       res.redirect('/registration-form');
     });
   }
 };
-
 
 /**
  * DEL /field/:id
  * Delete field by id
  */
 exports.deleteField = (req, res, next) => {
-  const id = req.params.id;
+  const id = req.body.id;
   Field.findByIdAndRemove(id, (err) => {
     if (err) {
       return next(err);

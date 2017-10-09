@@ -92,7 +92,7 @@ block content
           .col-sm-1
             button.btn.btn-small.btn-danger(
               type='button',
-              onclick='return confirm("This will delete all values stored in this field. Would you still like to proceed?");'
+              onclick=`deleteField("${field.id}")`
             )
               .fa.fa-trash
       .form-group#fieldTemplate(hidden="true")
@@ -103,12 +103,6 @@ block content
             placeholder='Label Name',
             name='template'
           )
-        .col-sm-1
-          button.btn.btn-small.btn-success(
-            type='button',
-            onclick='return confirm("This will delete all values stored in this field. Would you still like to proceed?");'
-          )
-            .fa.fa-check
     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-default(type='button', onclick='addField()') Add a new text field
@@ -127,7 +121,25 @@ block content
         const clone = template.cloneNode(true);
         clone.hidden = false;
         clone.removeAttribute('id');
-        clone.getElementsByTagName('input')[0].setAttribute('name','fields[]')
-        document.getElementById('fields').appendChild(clone)
+        clone.getElementsByTagName('input')[0].setAttribute('name','fields[]');
+        document.getElementById('fields').appendChild(clone);
+      }
+      
+      function deleteField(fieldId) {
+        const deleteForm = document.createElement('form');
+        deleteForm.action= '/registration-form/delete';
+        deleteForm.method="POST";
+
+        const csrf = document.getElementsByName('_csrf')[0];
+        const id = document.createElement('input');
+        id.setAttribute('name','id');
+        id.setAttribute('type', 'hidden');
+        id.setAttribute('value', fieldId);
+
+        deleteForm.appendChild(csrf);
+        deleteForm.appendChild(id);
+
+        document.body.appendChild(deleteForm);
+        deleteForm.submit();
       }
     

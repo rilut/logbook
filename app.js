@@ -166,6 +166,7 @@ app.get('/users', dashboardController.users);
 // app.get('/dashboard/change-password', dashboardController.changePassword);
 app.get('/registration-form', fieldController.getFields);
 app.post('/registration-form', fieldController.postField);
+app.post('/registration-form/delete', fieldController.deleteField);
 /**
  * Error Handler.
  */

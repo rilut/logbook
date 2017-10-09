@@ -13,7 +13,10 @@ const visitorSchema = new mongoose.Schema({
   otherFields: [{
     label: String,
     value: String
-  }]
+  }],
+  deleted: { type: Boolean, default: false },
+  deletedAt: Date,
+  deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Visitor' }
 }, { timestamps: true });
 
 visitorSchema.plugin(paginate);

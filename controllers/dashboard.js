@@ -3,14 +3,14 @@
  * Dashboard.
  */
 exports.index = (req, res) => {
-  res.render('dashboard/approve', {
+  res.render('dashboard/non-members', {
     title: 'Manage Non-Members'
   });
 };
 
-exports.guestLogs = (req, res) => {
-  res.render('dashboard/guest-logs', {
-    title: 'Guest Logs'
+exports.visitorLogs = (req, res) => {
+  res.render('dashboard/visitor-logs', {
+    title: 'Visitor Logs'
   });
 };
 

@@ -11,10 +11,11 @@
         | SPGG
     .collapse.navbar-collapse
       ul.nav.navbar-nav
-        li(class=(title === 'Home') ? 'active' : undefined)
-          a(href='/') Home
-        li(class=(title === 'Dashboard') ? 'active' : undefined)
-          a(href='/logs') Dashboard
+        if user
+          li(class=(title === 'Home') ? 'active' : undefined)
+            a(href='/') Home
+          li(class=(title === 'Dashboard') ? 'active' : undefined)
+            a(href='/logs') Dashboard
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title === 'Login') ? 'active' : undefined)
@@ -33,8 +34,6 @@
             ul.dropdown-menu
               li
                 a(href='/account') My Account
-              li
-                a(href='/dashboard') Dashboard
               li.divider
               li
                 a(href='/logout') Logout

@@ -1,9 +1,11 @@
 ul.nav.nav-pills.pull-right(role="tablist")
   li(class=(title === 'Guest Logs') ? 'active' : undefined, role="presentation")
     a(href="/logs") Guest Logs
+  //- li(class=(title === 'Realtime Logs') ? 'active' : undefined, role="presentation")
+  //-   a(href="/realtime-logs") Logs Monitor
   li(class=(title === 'Manage Non-Members') ? 'active' : undefined, role="presentation")
     a(href="/non-members") Manage Non-Members
   li(class=(title.indexOf('Edit Form') > -1) ? 'active' : undefined, role="presentation")
-    a(href="/registration-form") Edit Form
+    a(href="/registration-form") Edit Registration Form
   li(class=(title === 'Manage Users') ? 'active' : undefined, role="presentation")
     a(href="/users") Manage Users

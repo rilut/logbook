@@ -178,9 +178,9 @@ app.delete('/users/:id', passportConfig.isAuthenticated, userController.deleteUs
 /**
  * Dashboard app routes
  */
-// app.get('/dashboard', dashboardController.index);
-// app.get('/dashboard/guest-logs', dashboardController.guestLogs);
-// app.get('/dashboard/logs', dashboardController.realtimeLogs);
+app.get('/visitor-logs', dashboardController.visitorLogs);
+app.get('/realtime-logs', dashboardController.realtimeLogs);
+app.get('/non-members-form', dashboardController.editForm);
 // app.get('/dashboard/change-password', dashboardController.changePassword);
 app.get('/registration-form', fieldController.getFields);
 app.post('/registration-form', fieldController.postField);

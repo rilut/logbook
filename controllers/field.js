@@ -1,5 +1,6 @@
 const async = require('async');
 const Field = require('../models/Field');
+const Visitor = require('../models/Visitor');
 
 /**
  * GET /fields
@@ -65,12 +66,27 @@ exports.postField = (req, res, next) => {
  */
 exports.deleteField = (req, res, next) => {
   const id = req.body.id;
-  Field.findByIdAndRemove(id, (err) => {
+  Field.findById(id, (err, field) => {
     if (err) {
       return next(err);
     }
 
-    req.flash('success', { msg: 'Field has been deleted.' });
-    res.redirect('/registration-form');
+    Visitor.update(
+      { otherFields: { $elemMatch: { label: field.label } } },
+      { $pull: { otherFields: { label: field.label } } },
+      { multi: true }, (err) => {
+        if (err) {
+          return next(err);
+        }
+
+        Field.findByIdAndRemove(id, (err) => {
+          if (err) {
+            return next(err);
+          }
+
+          req.flash('success', { msg: 'Field has been deleted.' });
+          res.redirect('/registration-form');
+        });
+      });
   });
 };

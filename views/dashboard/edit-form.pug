@@ -126,20 +126,23 @@ block content
       }
       
       function deleteField(fieldId) {
-        const deleteForm = document.createElement('form');
-        deleteForm.action= '/registration-form/delete';
-        deleteForm.method="POST";
+        const r = confirm("This will delete all values stored in this field. Would you still like to proceed?");
+        if (r === true) {
+          const deleteForm = document.createElement('form');
+          deleteForm.action= '/registration-form/delete';
+          deleteForm.method="POST";
 
-        const csrf = document.getElementsByName('_csrf')[0];
-        const id = document.createElement('input');
-        id.setAttribute('name','id');
-        id.setAttribute('type', 'hidden');
-        id.setAttribute('value', fieldId);
+          const csrf = document.getElementsByName('_csrf')[0];
+          const id = document.createElement('input');
+          id.setAttribute('name','id');
+          id.setAttribute('type', 'hidden');
+          id.setAttribute('value', fieldId);
 
-        deleteForm.appendChild(csrf);
-        deleteForm.appendChild(id);
+          deleteForm.appendChild(csrf);
+          deleteForm.appendChild(id);
 
-        document.body.appendChild(deleteForm);
-        deleteForm.submit();
+          document.body.appendChild(deleteForm);
+          deleteForm.submit();
+        }
       }
     

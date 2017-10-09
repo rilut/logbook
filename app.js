@@ -173,6 +173,7 @@ app.get('/users/datatable', passportConfig.isAuthenticated, userController.getUs
 app.post('/users', passportConfig.isAuthenticated, userValidator.create, userController.postUser);
 app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser);
 app.put('/users/:id', passportConfig.isAuthenticated, userValidator.update, userController.putUser);
+app.delete('/users/:id', passportConfig.isAuthenticated, userController.deleteUser);
 
 /**
  * Dashboard app routes

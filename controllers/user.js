@@ -453,3 +453,21 @@ exports.putUser = (req, res, next) => {
     res.json(user);
   });
 };
+
+/**
+ * DELETE /users/:id
+ * Delete user
+ */
+exports.deleteUser = (req, res, next) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (user) {
+      return user.remove().then(() => {
+        res.json({ message: 'Success' });
+      });
+    }
+    res.json({ message: 'User not found'});
+  });
+};

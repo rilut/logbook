@@ -2428,6 +2428,10 @@ mongodb@2.2.31, "mongodb@>= 1.2.0 <3.0.0", mongodb@^2.0.52, mongodb@^2.2.11:
     mongodb-core "2.1.15"
     readable-stream "2.2.7"
 
+mongoose-datatable@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/mongoose-datatable/-/mongoose-datatable-1.0.6.tgz#68c33e00c153c12f9c021ecca8cee5bb62d4d331"
+
 mongoose-delete@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/mongoose-delete/-/mongoose-delete-0.4.0.tgz#6eeeed56d8b478cf09ae02b5894d11380056be4a"

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const paginate = require('mongoose-paginate');
 const softDelete = require('mongoose-delete');
+const dataTable = require('mongoose-datatable');
+
+mongoose.plugin(dataTable.init);
 
 const visitorSchema = new mongoose.Schema({
   name: String,

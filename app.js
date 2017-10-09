@@ -141,12 +141,14 @@ app.post('/account/delete', passportConfig.isAuthenticated, userController.postD
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
 app.get('/logs', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/logs/datatable', passportConfig.isAuthenticated, logController.getLogsDatatable);
 app.get('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
 app.post('/logs', passportConfig.isAuthenticated, logController.postLog);
 app.put('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
 app.delete('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.deleteLog);
 
 app.get('/non-members', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/non-members/datatable', passportConfig.isAuthenticated, visitorController.getVisitorsDatatable);
 app.get('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
 app.put('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
 app.put('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);
@@ -154,7 +156,8 @@ app.post('/non-members', passportConfig.isAuthenticated, visitorController.postV
 app.delete('/non-members/:id', passportConfig.isAuthenticated, visitorController.removeVisitor);
 app.delete('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
 
-app.get('/users', dashboardController.users);
+app.get('/users', passportConfig.isAuthenticated, userController.getUsers);
+app.get('/users/datatable', passportConfig.isAuthenticated, userController.getUsersDatatable);
 
 /**
  * Dashboard app routes

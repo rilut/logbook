@@ -5,19 +5,22 @@ const Visitor = require('../models/Visitor');
  * Get all visitor data
  */
 exports.getVisitors = (req, res, next) => {
-  const query = {
-    page: Number(req.query.page) || 1,
-    limit: Number(req.query.limit) || 20,
-    sort: { createdAt: -1 }
-  };
-  Visitor.paginate({ deleted: false }, query, (err, visitors) => {
-    if (err) {
-      return next(err);
-    }
-    res.render('dashboard/non-members', {
-      title: 'Manage Non-Members',
-      nonMembers: visitors,
-    });
+  // const query = {
+  //   page: Number(req.query.page) || 1,
+  //   limit: Number(req.query.limit) || 20,
+  //   sort: { createdAt: -1 }
+  // };
+  // Visitor.paginate({ deleted: false }, query, (err, visitors) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   res.render('dashboard/non-members', {
+  //     title: 'Manage Non-Members',
+  //     nonMembers: visitors,
+  //   });
+  // });
+  res.render('dashboard/non-members', {
+    title: 'Manage Non-Members',
   });
 };
 
@@ -148,5 +151,14 @@ exports.removeVisitor = (req, res, next) => {
       res.json({ visitor });
       // todo: render visitor detail page
     });
+  });
+};
+
+/**
+ * GET /visitors/datatable
+ */
+exports.getVisitorsDatatable = (req, res) => {
+  Visitor.dataTable(req.query, (err, data) => {
+    res.send(data);
   });
 };

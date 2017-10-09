@@ -440,3 +440,16 @@ exports.getUser = (req, res, next) => {
     res.json(user);
   });
 };
+
+/**
+ * PUT /users/:id
+ * Update user data
+ */
+exports.putUser = (req, res, next) => {
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(user);
+  });
+};

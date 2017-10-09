@@ -158,7 +158,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/logs', 'dashboard.logs', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/logs', 'dashboard.visitor-logs', passportConfig.isAuthenticated, logController.getLogs);
 app.get('/logs/datatable', passportConfig.isAuthenticated, logController.getLogsDatatable);
 app.get('/logs/csv', passportConfig.isAuthenticated, logController.exportCSV);
 app.get('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);

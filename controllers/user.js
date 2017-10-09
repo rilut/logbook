@@ -2,6 +2,7 @@ const bluebird = require('bluebird');
 const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
+const randomString = require('randomstring');
 const User = require('../models/User');
 
 /**
@@ -414,11 +415,13 @@ exports.getUsersDatatable = (req, res) => {
  * Create a new user data
  */
 exports.postUser = (req, res, next) => {
+  const rand = randomString.generate(8);
+  // TODO: send random password to email
   new User({
     name: req.body.name,
     email: req.body.email,
     role: req.body.role,
-    password: 12345678,
+    password: rand,
   }).save((err) => {
     if (err) {
       return next(err);

@@ -14,7 +14,13 @@
         if user
           li(class=(title === 'Home') ? 'active' : undefined)
             a(href='/') Home
-          li(class=(title === 'Dashboard') ? 'active' : undefined)
+          li(class=(
+            name === 'dashboard.visitor-logs'
+            || name === 'dashboard.realtime-logs'
+            || name === 'dashboard.non-members'
+            || name === 'dashboard.registration-form' 
+            || name === 'dashboard.users'
+            ) ? 'active' : undefined)
             a(href='/logs') Dashboard
       ul.nav.navbar-nav.navbar-right
         if !user

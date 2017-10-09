@@ -22,8 +22,9 @@ exports.getLogs = (req, res, next) => {
   //     logs,
   //   });
   // });
-  res.render('dashboard/guest-logs', {
-    title: 'Guest Logs',
+  res.render('dashboard/visitor-logs', {
+    name: req.route.name,
+    title: 'Guest Logs'
   });
 };
 

@@ -145,6 +145,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 app.get('/logs', passportConfig.isAuthenticated, logController.getLogs);
 app.get('/logs/datatable', passportConfig.isAuthenticated, logController.getLogsDatatable);
+app.get('/logs/csv', passportConfig.isAuthenticated, logController.exportCSV);
 app.get('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
 app.post('/logs', passportConfig.isAuthenticated, logController.postLog);
 app.put('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
@@ -152,6 +153,7 @@ app.delete('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, l
 
 app.get('/non-members', passportConfig.isAuthenticated, visitorController.getVisitors);
 app.get('/non-members/datatable', passportConfig.isAuthenticated, visitorController.getVisitorsDatatable);
+app.get('/non-members/csv', passportConfig.isAuthenticated, visitorController.exportCSV);
 app.get('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
 app.put('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.putVisitor);
 app.put('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.addFieldVisitor);

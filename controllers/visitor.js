@@ -1,3 +1,4 @@
+const csv = require('json2csv');
 const Visitor = require('../models/Visitor');
 
 /**
@@ -159,6 +160,27 @@ exports.removeVisitor = (req, res, next) => {
  */
 exports.getVisitorsDatatable = (req, res) => {
   Visitor.dataTable(req.query, (err, data) => {
+    res.send(data);
+  });
+};
+
+/**
+ * GET /non-members/csv
+ * Download CSV of all visitor.
+ */
+exports.exportCSV = (req, res, next) => {
+  Visitor.find({ deleted: false }, (err, visitors) => {
+    if (err) {
+      return next(err);
+    }
+    const fields = ['name', 'dob', 'nric', 'membershipId', 'membershipExpiry', 'otherId', 'remarks'];
+    const fieldNames = ['Name', 'Date of Birth', 'NRIC', 'Membership ID', 'Membership Expiration Date', 'Other ID', 'Remarks'];
+    const data = csv({
+      data: visitors,
+      fields,
+      fieldNames
+    });
+    res.attachment('visitors.csv');
     res.send(data);
   });
 };

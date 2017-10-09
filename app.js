@@ -36,6 +36,7 @@ const contactController = require('./controllers/contact');
 const logController = require('./controllers/log');
 const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
+const fieldController = require('./controllers/field');
 
 /**
  * API keys and Passport configuration.
@@ -163,7 +164,8 @@ app.get('/users', dashboardController.users);
 // app.get('/dashboard/guest-logs', dashboardController.guestLogs);
 // app.get('/dashboard/logs', dashboardController.realtimeLogs);
 // app.get('/dashboard/change-password', dashboardController.changePassword);
-app.get('/registration-form', dashboardController.editForm);
+app.get('/registration-form', fieldController.getFields);
+app.post('/registration-form', fieldController.postField);
 /**
  * Error Handler.
  */

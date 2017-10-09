@@ -1,0 +1,78 @@
+const async = require('async');
+const Field = require('../models/Field');
+
+/**
+ * GET /fields
+ * Get all fields data
+ */
+exports.getFields = (req, res, next) => {
+  Field.find().exec((err, fields) => {
+    if (err) {
+      return next(err);
+    }
+    res.render('dashboard/edit-form', {
+      title: 'Edit Form',
+      fields
+    });
+  });
+};
+
+
+/**
+ * POST /field
+ * Create a new field data 
+ */
+exports.postField = (req, res, next) => {
+  req.assert('fields', 'No field to add').notEmpty();
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    res.redirect('/registration-form');
+  } else {
+    const fields = req.body.fields;
+    const queries = [];
+    fields.map((label) => {
+      const field = new Field({
+        label
+      });
+      queries.push((callback) => {
+        field.save((err) => {
+          if (err) {
+            throw callback(err);
+          }
+
+          callback(null);
+        });
+      });
+      return label;
+    });
+
+    async.parallel(queries, (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      req.flash('success', { msg: 'New Field has been added.' });
+      res.redirect('/registration-form');
+    });
+  }
+};
+
+
+/**
+ * DEL /field/:id
+ * Delete field by id
+ */
+exports.deleteField = (req, res, next) => {
+  const id = req.params.id;
+  Field.findByIdAndRemove(id, (err) => {
+    if (err) {
+      return next(err);
+    }
+
+    req.flash('success', { msg: 'Field has been deleted.' });
+    res.redirect('/registration-form');
+  });
+};

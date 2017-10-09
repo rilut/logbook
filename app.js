@@ -171,6 +171,7 @@ app.delete('/non-members/:id/field', passportConfig.isAuthenticated, objectId.is
 app.get('/users', passportConfig.isAuthenticated, userController.getUsers);
 app.get('/users/datatable', passportConfig.isAuthenticated, userController.getUsersDatatable);
 app.post('/users', passportConfig.isAuthenticated, userValidator.create, userController.postUser);
+app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser);
 
 /**
  * Dashboard app routes

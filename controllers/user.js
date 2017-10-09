@@ -427,3 +427,16 @@ exports.postUser = (req, res, next) => {
     res.redirect('/dashboard/users');
   });
 };
+
+/**
+ * GET /users/:id
+ * Get user data
+ */
+exports.getUser = (req, res, next) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(user);
+  });
+};

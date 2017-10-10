@@ -1,3 +1,4 @@
+const csv = require('json2csv');
 const Log = require('../models/Log');
 const Visitor = require('../models/Visitor');
 
@@ -118,7 +119,6 @@ exports.deleteLog = (req, res, next) => {
   });
 };
 
-
 /**
  * GET /logs/datatable
  */
@@ -129,6 +129,27 @@ exports.getLogsDatatable = (req, res) => {
       log.actionEdit = `<a href="logs/${log._id}/edit">Edit</a>`;
       return log;
     });
+    res.send(data);
+  });
+};
+
+/**
+ * GET /logs/csv
+ * Download CSV of all visitor logs.
+ */
+exports.exportCSV = (req, res, next) => {
+  Log.find({}).populate('visitor').exec((err, logs) => {
+    if (err) {
+      return next(err);
+    }
+    const fields = ['visitor.name', 'visitor.dob', 'visitor.nric', 'visitor.membershipId', 'visitor.membershipExpiry', 'visitor.otherId', 'visitor.remarks', 'timeIn', 'timeOut', 'loginSuccessful'];
+    const fieldNames = ['Name', 'Date of Birth', 'NRIC', 'Membership ID', 'Membership Expiration Date', 'Other ID', 'Remarks', 'Login Time', 'Logout Time', 'Login Success'];
+    const data = csv({
+      data: logs,
+      fields,
+      fieldNames
+    });
+    res.attachment('logs.csv');
     res.send(data);
   });
 };

@@ -51,9 +51,10 @@ block content
             span(aria-hidden="true") »
 
     .btn-export-excel
-      button.btn.btn-success(type='submit')
-        i.fa.fa-file-excel-o
-        | Export All Logs to Excel File
+      a(href='/logs/csv')
+        button.btn.btn-success(type='submit')
+          i.fa.fa-file-excel-o
+          | Export All Logs to Excel File
 
   link(rel='stylesheet', href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
   script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')

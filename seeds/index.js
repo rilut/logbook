@@ -4,8 +4,19 @@ const mongoSeed = require('mongo-seed');
 
 dotenv.load({ path: '.env' });
 
-const dbName = process.env.MONGODB_URI.split('/')[3];
-const [mongoHost, mongoPort] = process.env.MONGODB_URI.split('/')[2].split(':');
+const splittedBySlash = process.env.MONGODB_URI.split('/');
+
+let mongoHost;
+let mongoPort;
+const dbName = splittedBySlash[3];
+const splittedByColon = splittedBySlash[2].split(':');
+
+if (splittedByColon.length === 2) {
+  [mongoHost, mongoPort] = splittedByColon;
+} else {
+  mongoHost = `${splittedByColon[0]}:${splittedByColon[1]}`;
+  mongoPort = splittedByColon[2];
+}
 
 console.log('Start seeding...');
 console.log(`Host: ${mongoHost}`);

@@ -71,14 +71,7 @@ module.exports = () => {
   }
 
   fs.writeFileSync(path.resolve(`${__dirname}/generated/visitors.json`),
-    JSON.stringify(fakeVisitors, null, 2),
-    (err) => {
-      if (err) {
-        return console.error(err);
-      }
-
-      console.log('The file was saved!');
-    });
+    JSON.stringify(fakeVisitors, null, 2));
 
   return {
     visitors: fakeVisitors,

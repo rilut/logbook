@@ -427,7 +427,7 @@ exports.postUser = (req, res, next) => {
       return next(err);
     }
     req.flash('success', { msg: 'New user has been created.' });
-    res.redirect('/dashboard/users');
+    res.redirect('/users');
   });
 };
 

@@ -19,6 +19,7 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
+const methodOverride = require('method-override');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -36,6 +37,7 @@ const contactController = require('./controllers/contact');
 const logController = require('./controllers/log');
 const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
+const fieldController = require('./controllers/field');
 
 /**
  * API keys and Passport configuration.
@@ -118,6 +120,7 @@ if (process.env.ENV === 'prod') {
   maxAge = 31557600000;
 }
 app.use(express.static(path.join(__dirname, 'public'), { maxAge }));
+app.use(methodOverride('_method'));
 
 /**
  * Primary app routes.
@@ -166,7 +169,9 @@ app.get('/users/datatable', passportConfig.isAuthenticated, userController.getUs
 // app.get('/dashboard/guest-logs', dashboardController.guestLogs);
 // app.get('/dashboard/logs', dashboardController.realtimeLogs);
 // app.get('/dashboard/change-password', dashboardController.changePassword);
-app.get('/registration-form', dashboardController.editForm);
+app.get('/registration-form', fieldController.getFields);
+app.post('/registration-form', fieldController.postField);
+app.delete('/registration-form/:id', fieldController.deleteField);
 /**
  * Error Handler.
  */

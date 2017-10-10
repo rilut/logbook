@@ -125,6 +125,10 @@ exports.deleteLog = (req, res, next) => {
 exports.getLogsDatatable = (req, res) => {
   req.query.populate = 'visitor';
   Log.dataTable(req.query, (err, data) => {
+    data.data = data.data.map((log) => {
+      log.actionEdit = `<a href="logs/${log._id}">Edit</a>`;
+      return log;
+    });
     res.send(data);
   });
 };

@@ -1,4 +1,3 @@
-const async = require('async');
 const Field = require('../models/Field');
 const Visitor = require('../models/Visitor');
 

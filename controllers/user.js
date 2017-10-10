@@ -2,7 +2,7 @@ const bluebird = require('bluebird');
 const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
-const randomString = require('randomstring');
+const faker = require('faker');
 const User = require('../models/User');
 
 /**
@@ -415,7 +415,7 @@ exports.getUsersDatatable = (req, res) => {
  * Create a new user data
  */
 exports.postUser = (req, res, next) => {
-  const rand = randomString.generate(8);
+  const rand = faker.internet.password(8);
   // TODO: send random password to email
   new User({
     name: req.body.name,
@@ -440,7 +440,7 @@ exports.getUser = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json(user);
+    res.json({ user });
   });
 };
 
@@ -453,7 +453,7 @@ exports.putUser = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json(user);
+    res.json({ user });
   });
 };
 
@@ -471,6 +471,6 @@ exports.deleteUser = (req, res, next) => {
         res.json({ message: 'Success' });
       });
     }
-    res.json({ message: 'User not found'});
+    res.json({ message: 'User not found' });
   });
 };

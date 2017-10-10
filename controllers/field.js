@@ -65,7 +65,7 @@ exports.postField = (req, res, next) => {
  * Delete field by id
  */
 exports.deleteField = (req, res, next) => {
-  const id = req.body.id;
+  const id = req.params.id;
   Field.findById(id, (err, field) => {
     if (err) {
       return next(err);

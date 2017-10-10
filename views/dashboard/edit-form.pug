@@ -129,7 +129,7 @@ block content
         const r = confirm("This will delete all values stored in this field. Would you still like to proceed?");
         if (r === true) {
           const deleteForm = document.createElement('form');
-          deleteForm.action= '/registration-form/delete';
+          deleteForm.action= `/registration-form/${fieldId}/?_method=DELETE`;
           deleteForm.method="POST";
 
           const csrf = document.getElementsByName('_csrf')[0];

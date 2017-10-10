@@ -34,6 +34,7 @@
     "express-validator": "^3.2.1",
     "faker": "^4.1.0",
     "lusca": "^1.5.1",
+    "method-override": "^2.3.10",
     "mongo-seed": "^0.6.0",
     "mongoose": "^4.11.7",
     "mongoose-delete": "^0.4.0",

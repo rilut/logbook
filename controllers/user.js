@@ -2,6 +2,7 @@ const bluebird = require('bluebird');
 const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
+const faker = require('faker');
 const User = require('../models/User');
 
 /**
@@ -400,12 +401,76 @@ exports.getUsers = (req, res, next) => {
   });
 };
 
-
 /**
  * GET /users/datatable
  */
 exports.getUsersDatatable = (req, res) => {
   User.dataTable(req.query, (err, data) => {
     res.send(data);
+  });
+};
+
+/**
+ * POST /users
+ * Create a new user data
+ */
+exports.postUser = (req, res, next) => {
+  const rand = faker.internet.password(8);
+  // TODO: send random password to email
+  new User({
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+    password: rand,
+  }).save((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash('success', { msg: 'New user has been created.' });
+    res.redirect('/users');
+  });
+};
+
+/**
+ * GET /users/:id
+ * Get user data
+ */
+exports.getUser = (req, res, next) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.json({ user });
+  });
+};
+
+/**
+ * PUT /users/:id
+ * Update user data
+ */
+exports.putUser = (req, res, next) => {
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    res.json({ user });
+  });
+};
+
+/**
+ * DELETE /users/:id
+ * Delete user
+ */
+exports.deleteUser = (req, res, next) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (user) {
+      return user.remove().then(() => {
+        res.json({ message: 'Success' });
+      });
+    }
+    res.json({ message: 'User not found' });
   });
 };

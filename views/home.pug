@@ -13,10 +13,11 @@ block content
     .col-sm-12.text-center.center-screen
       h1 SPGG
       p.lead To sign in or sign out, scan your NRIC/FIN
-      input#uploadFile.inputfile.btn__upload__float(
-        type="file",
-        accept="image/jpeg,image/gif,.png"
-      )
-      | 
-      label(for="uploadFile")
-        i.fa.fa-camera
+      .col-md-4.col-md-offset-4
+        form
+          .input-group
+            input.form-control.text-center(type='text', placeholder='', autofocus=true)
+            |     
+            .input-group-btn
+              button.btn.btn-default(type='submit')
+                i.fa.fa-barcode

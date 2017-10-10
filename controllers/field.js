@@ -33,30 +33,19 @@ exports.postField = (req, res, next) => {
   } else {
     const fields = req.body.fields;
     const queries = [];
-    fields.map((label) => {
-      const field = new Field({
-        label
-      });
-      queries.push((callback) => {
-        field.save((err) => {
-          if (err) {
-            throw callback(err);
-          }
-
-          callback(null);
-        });
-      });
-      return label;
+    fields.forEach((label) => {
+      const field = new Field({ label });
+      queries.push(field.save());
     });
 
-    async.parallel(queries, (err) => {
-      if (err) {
-        return next(err);
-      }
-
-      req.flash('success', { msg: 'New Field(s) has been added.' });
-      res.redirect('/registration-form');
-    });
+    Promise.all(queries)
+      .then(() => {
+        req.flash('success', { msg: 'New Field(s) has been added.' });
+        res.redirect('/registration-form');
+      })
+      .catch((err) => {
+        next(err);
+      });
   }
 };
 

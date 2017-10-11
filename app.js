@@ -14,6 +14,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
 const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
@@ -79,6 +80,21 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
+
+/**
+ * Connect to MySQL
+ */
+const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME,
+  process.env.MYSQL_PASSWORD, {
+    host: process.env.MYSQL_HOST,
+    dialect: process.env.MYSQL_DIALECT,
+
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000
+    }
+  });
 
 /**
  * Express configuration.

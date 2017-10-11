@@ -21,6 +21,7 @@ exports.getVisitors = (req, res, next) => {
   //   });
   // });
   res.render('dashboard/non-members', {
+    name: req.route.name,
     title: 'Manage Non-Members',
   });
 };

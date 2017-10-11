@@ -20,6 +20,7 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 const methodOverride = require('method-override');
+const Router = require('named-routes');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -60,6 +61,13 @@ const userValidator = require('./validators/UserValidator');
  * Create Express server.
  */
 const app = express();
+
+/**
+ * App routes
+ */
+const router = new Router();
+router.extendExpress(app);
+router.registerAppHelpers(app);
 
 /**
  * Connect to MongoDB.
@@ -150,7 +158,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/logs', passportConfig.isAuthenticated, logController.getLogs);
+app.get('/logs', 'dashboard.visitor-logs', passportConfig.isAuthenticated, logController.getLogs);
 app.get('/logs/datatable', passportConfig.isAuthenticated, logController.getLogsDatatable);
 app.get('/logs/csv', passportConfig.isAuthenticated, logController.exportCSV);
 app.get('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.getLog);
@@ -158,7 +166,7 @@ app.post('/logs', passportConfig.isAuthenticated, logController.postLog);
 app.put('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.putLog);
 app.delete('/logs/:id', passportConfig.isAuthenticated, objectId.isParamValid, logController.deleteLog);
 
-app.get('/non-members', passportConfig.isAuthenticated, visitorController.getVisitors);
+app.get('/non-members', 'dashboard.non-members', passportConfig.isAuthenticated, visitorController.getVisitors);
 app.get('/non-members/datatable', passportConfig.isAuthenticated, visitorController.getVisitorsDatatable);
 app.get('/non-members/csv', passportConfig.isAuthenticated, visitorController.exportCSV);
 app.get('/non-members/:id', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.getVisitor);
@@ -168,7 +176,7 @@ app.post('/non-members', passportConfig.isAuthenticated, visitorController.postV
 app.delete('/non-members/:id', passportConfig.isAuthenticated, visitorController.removeVisitor);
 app.delete('/non-members/:id/field', passportConfig.isAuthenticated, objectId.isParamValid, visitorController.removeFieldVisitor);
 
-app.get('/users', passportConfig.isAuthenticated, userController.getUsers);
+app.get('/users', 'dashboard.users', dashboardController.users);
 app.get('/users/datatable', passportConfig.isAuthenticated, userController.getUsersDatatable);
 app.post('/users', passportConfig.isAuthenticated, userValidator.create, userController.postUser);
 app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser);
@@ -178,11 +186,11 @@ app.delete('/users/:id', passportConfig.isAuthenticated, userController.deleteUs
 /**
  * Dashboard app routes
  */
-// app.get('/dashboard', dashboardController.index);
-// app.get('/dashboard/guest-logs', dashboardController.guestLogs);
-// app.get('/dashboard/logs', dashboardController.realtimeLogs);
+app.get('/visitor-logs', 'dashboard.visitor-logs', dashboardController.visitorLogs);
+app.get('/realtime-logs', 'dashboard.realtime-logs', dashboardController.realtimeLogs);
+app.get('/non-members-form', 'dashboard.non-members-form', dashboardController.editForm);
 // app.get('/dashboard/change-password', dashboardController.changePassword);
-app.get('/registration-form', fieldController.getFields);
+app.get('/registration-form', 'dashboard.registration-form', fieldController.getFields);
 app.post('/registration-form', fieldController.postField);
 app.delete('/registration-form/:id', fieldController.deleteField);
 /**

@@ -40,6 +40,7 @@ const logController = require('./controllers/log');
 const visitorController = require('./controllers/visitor');
 const dashboardController = require('./controllers/dashboard');
 const fieldController = require('./controllers/field');
+const membershipController = require('./controllers/membership');
 
 /**
  * API keys and Passport configuration.
@@ -57,6 +58,11 @@ const validatorMiddleware = require('./middlewares/ValidatorMiddleware');
  * Validators.
  */
 const userValidator = require('./validators/UserValidator');
+
+/**
+ * Database
+ */
+const db = require('./models/sequelize');
 
 /**
  * Create Express server.
@@ -156,6 +162,7 @@ app.use(validatorMiddleware);
  * Primary app routes.
  */
 app.get('/', homeController.index);
+app.get('/membership', membershipController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -214,9 +221,14 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
-});
+db
+  .sequelize
+  .sync({ force: false })
+  .then(() => {
+    app.listen(app.get('port'), () => {
+      console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+      console.log('  Press CTRL-C to stop\n');
+    });
+  });
 
 module.exports = app;

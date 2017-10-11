@@ -33,6 +33,7 @@
     "express-validator": "^3.2.1",
     "faker": "^4.1.0",
     "json2csv": "^3.11.2",
+    "lodash": "^4.17.4",
     "lusca": "^1.5.1",
     "method-override": "^2.3.10",
     "mongo-seed": "^0.6.0",

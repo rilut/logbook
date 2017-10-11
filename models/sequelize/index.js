@@ -5,12 +5,10 @@ const _ = require('lodash');
 
 const db = {};
 
-const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME,
-  process.env.MYSQL_PASSWORD, {
-    host: process.env.MYSQL_HOST,
-    dialect: process.env.MYSQL_DIALECT,
-    maxConcurrentQueries: 100
-  });
+const sequelize = new Sequelize(process.env.MYSQL_URI, {
+  dialect: process.env.MYSQL_DIALECT,
+  maxConcurrentQueries: 100
+});
 
 fs
   .readdirSync(__dirname)

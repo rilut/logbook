@@ -88,21 +88,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 /**
- * Connect to MySQL
- */
-const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USERNAME,
-  process.env.MYSQL_PASSWORD, {
-    host: process.env.MYSQL_HOST,
-    dialect: process.env.MYSQL_DIALECT,
-
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    }
-  });
-
-/**
  * Express configuration.
  */
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');

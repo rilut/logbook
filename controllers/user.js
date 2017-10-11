@@ -11,7 +11,7 @@ const User = require('../models/User');
  */
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect('/');
+    return res.redirect('/logs');
   }
   res.render('account/login', {
     title: 'Login'
@@ -43,7 +43,7 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.redirect(!req.session.returnTo || req.session.returnTo === '/' ? '/logs' : req.session.returnTo);
     });
   })(req, res, next);
 };

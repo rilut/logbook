@@ -51,6 +51,7 @@ block content
   form(method='POST', action='/forgot', id='reset-form')
     input(type='hidden', name='_csrf', value=_csrf)
     input(type='hidden', name='email', id='reset-email')
+    input(type='hidden', name='type', value='manage')
 
   link(rel='stylesheet', href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
   script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')

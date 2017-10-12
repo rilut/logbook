@@ -266,11 +266,12 @@ exports.postForgot = (req, res, next) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
+  const isManaged = req.body.type === 'manage';
   const errors = req.validationErrors();
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/forgot');
+    return res.redirect(isManaged ? '/users' : '/forgot');
   }
 
   const createRandomToken = crypto
@@ -319,7 +320,7 @@ exports.postForgot = (req, res, next) => {
   createRandomToken
     .then(setRandomToken)
     .then(sendForgotPasswordEmail)
-    .then(() => res.redirect('/forgot'))
+    .then(() => res.redirect(isManaged ? 'users' : '/forgot'))
     .catch(next);
 };
 

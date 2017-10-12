@@ -421,3 +421,19 @@ exports.deleteUser = (req, res, next) => {
     res.json({ message: 'User not found' });
   });
 };
+
+/**
+ * PUT /users/:id/roles
+ * Update Roles
+ */
+exports.putRoles = (req, res) => {
+  const { role } = req.body;
+  User.findByIdAndUpdate(req.params.id, { role }, { new: true }, (err) => {
+    if (err) {
+      req.flash('error', { msg: 'Update role failed.' });
+      res.json({ status: 'error' });
+    }
+    req.flash('success', { msg: 'User role has been updated.' });
+    res.json({ status: 'success' });
+  });
+};

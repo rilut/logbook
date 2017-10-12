@@ -68,7 +68,7 @@ block content
             "data": "role",
             "render": function (data, type, full, meta) {
               var roles = ['Administrator', 'Supervisor', 'Operator'];
-              var select = '<select class="form-control">';
+              var select = '<select class="form-control roles">';
               roles.forEach(function (val) {
                 var selected = full.role === val ? 'selected' : '';
                 select += '<option ' + selected + '>' + val + '</option>'
@@ -88,11 +88,25 @@ block content
       $('#users-table tbody').on('click', 'td button.reset-password', function () {
         var tr = $(this).closest('tr');
         var email = table.row(tr).data().email;
-
-        console.log(email);
-
         $('#reset-email').val(email);
         $('#reset-form').submit();
+      });
+
+      $('#users-table tbody').on('change', 'td select.roles', function () {
+        var tr = $(this).closest('tr');
+        var id = table.row(tr).data()._id;
+        var role = $(this).val();
+        console.log(role);
+
+        $.ajax({
+          type: "PUT",
+          url: "/users/" + id + "/roles",
+          data: { role },
+          dataType: "json",
+          success: function (res) {
+            location.reload();
+          }
+        });
       });
     });
 

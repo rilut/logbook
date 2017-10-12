@@ -131,20 +131,25 @@ block content
                 labels: ['Success','Fail']
               }
             ]
-          }).initEditable()
+          })
       });
 
     });
 
-    function EditableDatatable(options){
-      this.className = options.className;
-      this.fields = options.fields;
-      this.fieldsIds = options.fields.map(el => el.target)
+    class EditableDatatable {
+      constructor(options) {
+        this.className = options.className;
+        this.fields = options.fields;
+        this.fieldsIds = options.fields.map(el => el.target)
 
-      const buttons = $(`.${this.className}`);
+        this.initEditable()
+      }
 
-      EditableDatatable.prototype.initEditable = () => {
+      initEditable () {
+        const buttons = $(`.${this.className}`);
+        
         $.each(buttons, (index, button) => {
+          $(button).off("click")
 
           $(button).click((s) => {
             const columns = $(button).parent().siblings();
@@ -200,6 +205,7 @@ block content
               $(button).off("click")
               $(button).attr('class', `${this.className} btn btn-primary`);
               $(button).html('Edit');
+
               this.initEditable()
             })
           })

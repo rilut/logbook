@@ -8,7 +8,7 @@ block content
   p.lead Guest Logs
   table.table.table-striped.table-hover.table-bordered(id="logs-table")
     thead
-      th.text-center.col-sm-3.asdf Name
+      th.text-center.col-sm-3 Name
       th.text-center.col-sm-1 DOB
       th.text-center.col-sm-1 NRIC/FIN
       th.text-center.col-sm-2 Membership No
@@ -130,7 +130,18 @@ block content
                 name: 'loginSuccessful',
                 labels: ['Success','Fail']
               }
-            ]
+            ],
+            onSave: (data) => {
+              $.ajax({
+                type: "PUT",
+                url: `/logs/${data.id}`,
+                data,
+                dataType: "json",
+                success: function (res) {
+                  location.reload();
+                }
+              });
+            }
           })
       });
 
@@ -141,6 +152,7 @@ block content
         this.className = options.className;
         this.fields = options.fields;
         this.fieldsIds = options.fields.map(el => el.target)
+        this.onSave = options.onSave
 
         this.initEditable()
       }
@@ -182,6 +194,8 @@ block content
             $(button).html('Save');
 
             $(button).click((b) => {
+              let values = { id };
+
               $.each(columns, (colIndex, col) => {
 
                 if(this.fieldsIds.indexOf(colIndex) !== -1) {
@@ -189,13 +203,14 @@ block content
 
                   switch(field.type) {
                     case 'datetime': 
-                      const value2 = $(`input[name="${field.name}-${id}"]`).val();
-                      $(col).html(moment(new Date(value2)).format("DD/MM/YYYY, h:mm A"));
+                      const val = $(`input[name="${field.name}-${id}"]`).val();
+                      values = Object.assign(values, {[field.name]: new Date(val)})
+                      $(col).html(moment(new Date(val)).format("DD/MM/YYYY, h:mm A"));
                     break;
                     case 'boolean':
-                      const value3 = $(`input[name="${field.name}-${id}"]:checked`).val();
-                      console.log(value3)
-                      $(col).html(value3 === 'true' ? field.labels[0] : field.labels[1]);
+                      const val2 = $(`input[name="${field.name}-${id}"]:checked`).val();
+                      values = Object.assign(values, {[field.name]: val2 === 'true'})
+                      $(col).html(val2 === 'true' ? field.labels[0] : field.labels[1]);
                     break;
                   }
                 }
@@ -204,9 +219,10 @@ block content
 
               $(button).off("click")
               $(button).attr('class', `${this.className} btn btn-primary`);
-              $(button).html('Edit');
+              $(button).html('<i class="fa fa-spinner fa-pulse fa-small fa-fw"></i><span>Saving</span>');
 
-              this.initEditable()
+              this.onSave(values);
+              //- this.initEditable()
             })
           })
 

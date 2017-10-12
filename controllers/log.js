@@ -96,9 +96,9 @@ exports.putLog = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // res.json({ log });
-    req.flash('success', { msg: 'Visitor information has been updated.' });
-    res.redirect('/logs');
+    res.json({ log });
+    // req.flash('success', { msg: 'Visitor information has been updated.' });
+    // res.redirect('/logs');
     // todo: render all visitors page
   });
 };

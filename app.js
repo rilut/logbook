@@ -148,6 +148,7 @@ app.use(validatorMiddleware);
  */
 app.get('/', homeController.index);
 app.get('/membership', membershipController.index);
+app.post('/verify-membership', membershipController.verifyMembership);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

@@ -280,7 +280,7 @@ exports.postForgot = (req, res, next) => {
 
   const setRandomToken = token =>
     User
-      .findOne({ email: req.body.email })
+      .findOne({ email: { $regex: new RegExp(`^${req.body.email}$`, 'i') } })
       .then((user) => {
         if (!user) {
           req.flash('errors', { msg: 'Account with that email address does not exist.' });

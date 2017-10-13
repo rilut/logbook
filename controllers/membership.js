@@ -17,7 +17,7 @@ exports.index = (req, res) => {
 };
 
 
-exports.verifyMembership = (req, res) => {
+exports.postMembershipVerify = (req, res) => {
   const { nric } = req.body;
   db.Member
     .findOne({ where: {
@@ -35,16 +35,17 @@ exports.verifyMembership = (req, res) => {
         return res.json({
           status: true,
           warning: false,
-          message: 'OK',
+          message: 'Membership is allowed',
           data: member,
         });
       } else if (member && member.s_no) {
         let isValid = true;
         let warning = false;
-        let message = 'Membership is not allowed';
+        let message = 'Membership is allowed';
 
         if (member.membership_status !== MEMBER_ACTIVE) {
           isValid = false;
+          message = 'Membership status is not active';
         }
 
         const memberDob = moment(member.date_of_birth);
@@ -52,9 +53,11 @@ exports.verifyMembership = (req, res) => {
           const age = moment().diff(memberDob, 'years');
           if (age < 21) {
             isValid = false;
+            message = 'Member age is less than 21 years old';
           }
         } else {
           isValid = false;
+          message = 'Member birth date is not valid';
         }
 
         const memberExpiry = moment(member.expiry_date);
@@ -62,16 +65,22 @@ exports.verifyMembership = (req, res) => {
           const expiryDays = memberExpiry.diff(moment(), 'days');
           if (expiryDays < 30) {
             warning = true;
+            message = 'Membership expiry date is less than 30 days';
+          }
+          if (expiryDays < 0) {
+            isValid = false;
+            message = 'Membership was expired';
           }
         } else {
           isValid = false;
+          message = 'Membership expiry date is not valid';
         }
 
         const memberId = member.member_id;
         if (memberId.match(/^(ST).+/) || memberId.match(/.+(S|J1|J2)$/)) {
           isValid = false;
+          message = 'Membership is part of subsidiary card';
         }
-        if (isValid) message = 'Member is allowed';
 
         return res.json({
           status: isValid,
@@ -82,7 +91,7 @@ exports.verifyMembership = (req, res) => {
       }
       return res.json({
         status: false,
-        message: 'Member not found',
+        message: 'Membership not found',
         warning: false,
         data: null
       });

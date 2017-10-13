@@ -34,11 +34,13 @@ exports.verifyMembership = (req, res) => {
       if (member && member._id) {
         return res.json({
           status: true,
+          warning: false,
           message: 'OK',
           data: member,
         });
       } else if (member && member.s_no) {
         let isValid = true;
+        let warning = false;
         let message = 'Membership is not allowed';
 
         if (member.membership_status !== MEMBER_ACTIVE) {
@@ -59,7 +61,7 @@ exports.verifyMembership = (req, res) => {
         if (memberExpiry.isValid()) {
           const expiryDays = memberExpiry.diff(moment(), 'days');
           if (expiryDays < 30) {
-            message = 'Warning, Membership expiry date is less than 30 days';
+            warning = true;
           }
         } else {
           isValid = false;
@@ -69,17 +71,19 @@ exports.verifyMembership = (req, res) => {
         if (memberId.match(/^(ST).+/) || memberId.match(/.+(S|J1|J2)$/)) {
           isValid = false;
         }
-        if (isValid) message = 'OK';
+        if (isValid) message = 'Member is allowed';
 
         return res.json({
           status: isValid,
           message,
+          warning,
           data: member,
         });
       }
       return res.json({
         status: false,
         message: 'Member not found',
+        warning: false,
         data: null
       });
     });

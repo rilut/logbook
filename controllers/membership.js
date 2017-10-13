@@ -65,7 +65,6 @@ exports.postMembershipVerify = (req, res) => {
           const expiryDays = memberExpiry.diff(moment(), 'days');
           if (expiryDays < 30) {
             warning = true;
-            message = 'Membership expiry date is less than 30 days';
           }
           if (expiryDays < 0) {
             isValid = false;

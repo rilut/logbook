@@ -176,7 +176,7 @@ block content
                 switch(field.type) {
                   case 'datetime': 
                     $(col).html(`<input class="form-control" name="${field.name}-${id}" id="${field.name}-${id}" style="width:170px"/>`);
-                    $(`#${field.name}-${id}`).datetimepicker({defaultDate: new Date(value), format : "DD/MM/YYYY h:mm A"});
+                    $(`#${field.name}-${id}`).datetimepicker({defaultDate: moment(value, "DD/MM/YYYY, h:mm A"), format : "DD/MM/YYYY, h:mm A"});
                   break;
                   case 'boolean':
                     value = value === field.labels[0];
@@ -204,8 +204,9 @@ block content
                   switch(field.type) {
                     case 'datetime': 
                       const val = $(`input[name="${field.name}-${id}"]`).val();
-                      values = Object.assign(values, {[field.name]: new Date(val)})
-                      $(col).html(moment(new Date(val)).format("DD/MM/YYYY, h:mm A"));
+                      const tdate = moment(val, "DD/MM/YYYY, h:mm A").toDate();
+                      values = Object.assign(values, {[field.name]: tdate})
+                      $(col).html(moment(tdate).format("DD/MM/YYYY, h:mm A"));
                     break;
                     case 'boolean':
                       const val2 = $(`input[name="${field.name}-${id}"]:checked`).val();

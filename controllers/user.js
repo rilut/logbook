@@ -266,11 +266,12 @@ exports.postForgot = (req, res, next) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
+  const isManaged = req.body.type === 'manage';
   const errors = req.validationErrors();
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/forgot');
+    return res.redirect(isManaged ? '/users' : '/forgot');
   }
 
   const createRandomToken = crypto
@@ -279,7 +280,7 @@ exports.postForgot = (req, res, next) => {
 
   const setRandomToken = token =>
     User
-      .findOne({ email: req.body.email })
+      .findOne({ email: { $regex: new RegExp(`^${req.body.email}$`, 'i') } })
       .then((user) => {
         if (!user) {
           req.flash('errors', { msg: 'Account with that email address does not exist.' });
@@ -319,7 +320,7 @@ exports.postForgot = (req, res, next) => {
   createRandomToken
     .then(setRandomToken)
     .then(sendForgotPasswordEmail)
-    .then(() => res.redirect('/forgot'))
+    .then(() => res.redirect(isManaged ? 'users' : '/forgot'))
     .catch(next);
 };
 
@@ -418,5 +419,21 @@ exports.deleteUser = (req, res, next) => {
       });
     }
     res.json({ message: 'User not found' });
+  });
+};
+
+/**
+ * PUT /users/:id/roles
+ * Update Roles
+ */
+exports.putRoles = (req, res) => {
+  const { role } = req.body;
+  User.findByIdAndUpdate(req.params.id, { role }, { new: true }, (err) => {
+    if (err) {
+      req.flash('error', { msg: 'Update role failed.' });
+      res.json({ status: 'error' });
+    }
+    req.flash('success', { msg: 'User role has been updated.' });
+    res.json({ status: 'success' });
   });
 };

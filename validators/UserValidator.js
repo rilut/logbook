@@ -15,7 +15,7 @@ const UserValidator = () => {
 
     if (errors) {
       req.flash('errors', errors);
-      res.redirect('/dashboard/users');
+      res.redirect('/users');
     } else {
       return next();
     }
@@ -31,7 +31,22 @@ const UserValidator = () => {
 
     if (errors) {
       req.flash('errors', errors);
-      res.redirect('/dashboard/users');
+      res.redirect('/users');
+    } else {
+      return next();
+    }
+  };
+
+  const updateRole = (req, res, next) => {
+    req.assert('role')
+      .isRolesName()
+      .withMessage('Role only accept Operator, Supervisor, or Administrator');
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+      req.flash('errors', errors);
+      res.json({ status: 'error' });
     } else {
       return next();
     }
@@ -40,6 +55,7 @@ const UserValidator = () => {
   return {
     create,
     update,
+    updateRole,
   };
 };
 

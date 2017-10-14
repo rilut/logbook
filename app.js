@@ -187,6 +187,7 @@ app.post('/users', passportConfig.isAuthenticated, userValidator.create, userCon
 app.get('/users/:id', passportConfig.isAuthenticated, userController.getUser);
 app.put('/users/:id', passportConfig.isAuthenticated, userValidator.update, userController.putUser);
 app.delete('/users/:id', passportConfig.isAuthenticated, userController.deleteUser);
+app.put('/users/:id/roles', passportConfig.isAuthenticated, userValidator.updateRole, userController.putRoles);
 
 /**
  * Dashboard app routes

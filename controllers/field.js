@@ -5,7 +5,7 @@ const Visitor = require('../models/Visitor');
  * GET /fields
  * Get all fields data
  */
-exports.getFields = (req, res, next) => {
+const getFields = (req, res, next) => {
   Field.find().exec((err, fields) => {
     if (err) {
       return next(err);
@@ -21,7 +21,7 @@ exports.getFields = (req, res, next) => {
  * POST /field
  * Create a new field data 
  */
-exports.postField = (req, res, next) => {
+const postField = (req, res, next) => {
   req.assert('fields', 'No field to add').notEmpty();
 
   const errors = req.validationErrors();
@@ -52,7 +52,7 @@ exports.postField = (req, res, next) => {
  * DEL /field/:id
  * Delete field by id
  */
-exports.deleteField = (req, res, next) => {
+const deleteField = (req, res, next) => {
   const id = req.params.id;
   Field.findById(id, (err, field) => {
     if (err) {
@@ -78,3 +78,5 @@ exports.deleteField = (req, res, next) => {
       });
   });
 };
+
+module.exports = { deleteField, getFields, postField };

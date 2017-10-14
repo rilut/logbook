@@ -5,7 +5,7 @@ const Visitor = require('../models/Visitor');
  * GET /non-members
  * Get all visitor data
  */
-exports.getVisitors = (req, res, next) => {
+const getVisitors = (req, res, next) => {
   // const query = {
   //   page: Number(req.query.page) || 1,
   //   limit: Number(req.query.limit) || 20,
@@ -30,7 +30,7 @@ exports.getVisitors = (req, res, next) => {
  * GET /non-members/:id
  * Get visitor data with specified id
  */
-exports.getVisitor = (req, res, next) => {
+const getVisitor = (req, res, next) => {
   const id = req.params.id;
   Visitor.findById(id, (err, visitor) => {
     if (err) {
@@ -45,7 +45,7 @@ exports.getVisitor = (req, res, next) => {
  * POST /non-members
  * Create a new visitor data 
  */
-exports.postVisitor = (req, res, next) => {
+const postVisitor = (req, res, next) => {
   req.assert('name', 'Name cannot be blank').notEmpty();
   req.assert('dob', 'Date of birth cannot be blank').notEmpty();
   req.assert('nric', 'NRIC cannot be blank').notEmpty();
@@ -83,7 +83,7 @@ exports.postVisitor = (req, res, next) => {
  * PUT /non-members/:id
  * Update visitor data with specified id
  */
-exports.putVisitor = (req, res, next) => {
+const putVisitor = (req, res, next) => {
   const id = req.params.id;
   const body = {
     otherFields: req.body.otherFields
@@ -102,7 +102,7 @@ exports.putVisitor = (req, res, next) => {
  * PUT /non-members/:id/field
  * Add a new field with it's value to a visitor with specified id
  */
-exports.addFieldVisitor = (req, res, next) => {
+const addFieldVisitor = (req, res, next) => {
   const id = req.params.id;
   const newField = {
     label: req.body.label,
@@ -124,7 +124,7 @@ exports.addFieldVisitor = (req, res, next) => {
  * DEL /non-members/:id/field
  * Remove an existing field with it's value from a visitor with specified id
  */
-exports.removeFieldVisitor = (req, res, next) => {
+const removeFieldVisitor = (req, res, next) => {
   const id = req.params.id;
   const label = req.body.label;
   Visitor.findByIdAndUpdate(id, {
@@ -143,7 +143,7 @@ exports.removeFieldVisitor = (req, res, next) => {
  * DEL /non-members/:id
  * Remove visitor data with specified id
  */
-exports.removeVisitor = (req, res, next) => {
+const removeVisitor = (req, res, next) => {
   const id = req.params.id;
   Visitor.findById(id, (err, visitor) => {
     if (err) {
@@ -159,7 +159,7 @@ exports.removeVisitor = (req, res, next) => {
 /**
  * GET /visitors/datatable
  */
-exports.getVisitorsDatatable = (req, res) => {
+const getVisitorsDatatable = (req, res) => {
   Visitor.dataTable(req.query, (err, data) => {
     res.send(data);
   });
@@ -169,7 +169,7 @@ exports.getVisitorsDatatable = (req, res) => {
  * GET /non-members/csv
  * Download CSV of all visitor.
  */
-exports.exportCSV = (req, res, next) => {
+const exportCSV = (req, res, next) => {
   Visitor.find({ deleted: false }, (err, visitors) => {
     if (err) {
       return next(err);
@@ -185,3 +185,11 @@ exports.exportCSV = (req, res, next) => {
     res.send(data);
   });
 };
+
+module.exports = {
+  addFieldVisitor, removeFieldVisitor,
+  getVisitors,
+  getVisitor, postVisitor, putVisitor, removeVisitor,
+  getVisitorsDatatable,
+  exportCSV,
+ };

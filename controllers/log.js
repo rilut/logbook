@@ -6,7 +6,7 @@ const Visitor = require('../models/Visitor');
  * GET /logs
  * Get all visitors logs data
  */
-exports.getLogs = (req, res, next) => {
+const getLogs = (req, res, next) => {
   // const query = {
   //   page: Number(req.query.page) || 1,
   //   limit: Number(req.query.limit) || 20,
@@ -32,7 +32,7 @@ exports.getLogs = (req, res, next) => {
  * GET /logs/:id
  * Get log data with specified id
  */
-exports.getLog = (req, res, next) => {
+const getLog = (req, res, next) => {
   const id = req.params.id;
   Log.findById(id).populate('visitor').exec((err, log) => {
     if (err) {
@@ -47,7 +47,7 @@ exports.getLog = (req, res, next) => {
  * POST /logs
  * Create a new log data 
  */
-exports.postLog = (req, res, next) => {
+const postLog = (req, res, next) => {
   req.assert('nric', 'NRIC cannot be blank').notEmpty();
 
   const errors = req.validationErrors();
@@ -85,7 +85,7 @@ exports.postLog = (req, res, next) => {
  * PUT /logs/:id
  * Update log data with specified id
  */
-exports.putLog = (req, res, next) => {
+const putLog = (req, res, next) => {
   const id = req.params.id;
   const body = {
     timeIn: req.body.timeIn,
@@ -107,7 +107,7 @@ exports.putLog = (req, res, next) => {
  * DEL /logs/:id
  * Update log data with specified id
  */
-exports.deleteLog = (req, res, next) => {
+const deleteLog = (req, res, next) => {
   const id = req.params.id;
   Log.findByIdAndRemove(id, (err, log) => {
     if (err) {
@@ -123,7 +123,7 @@ exports.deleteLog = (req, res, next) => {
 /**
  * GET /logs/datatable
  */
-exports.getLogsDatatable = (req, res) => {
+const getLogsDatatable = (req, res) => {
   req.query.populate = 'visitor';
   Log.dataTable(req.query, (err, data) => {
     // data.data = data.data.map((log) => {
@@ -138,7 +138,7 @@ exports.getLogsDatatable = (req, res) => {
  * GET /logs/csv
  * Download CSV of all visitor logs.
  */
-exports.exportCSV = (req, res, next) => {
+const exportCSV = (req, res, next) => {
   Log.find({}).populate('visitor').exec((err, logs) => {
     if (err) {
       return next(err);
@@ -154,3 +154,5 @@ exports.exportCSV = (req, res, next) => {
     res.send(data);
   });
 };
+
+module.exports = { getLog, getLogs, postLog, putLog, deleteLog, getLogsDatatable, exportCSV };

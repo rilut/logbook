@@ -36,7 +36,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
 /**
  * Login Required middleware.
  */
-exports.isAuthenticated = (req, res, next) => {
+const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -46,7 +46,7 @@ exports.isAuthenticated = (req, res, next) => {
 /**
  * Authorization Required middleware.
  */
-exports.isAuthorized = (req, res, next) => {
+const isAuthorized = (req, res, next) => {
   const provider = req.path.split('/').slice(-1)[0];
   const token = req.user.tokens.find(token => token.kind === provider);
   if (token) {
@@ -55,3 +55,5 @@ exports.isAuthorized = (req, res, next) => {
     res.redirect(`/auth/${provider}`);
   }
 };
+
+module.exports = { isAuthenticated, isAuthorized };

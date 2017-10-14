@@ -9,12 +9,13 @@ block content
   table.table.table-striped.table-hover.table-bordered(id="non-members-table")
     thead
       th.text-center.col-sm-3 Name
-      th.text-center.col-sm-1 DOB
-      th.text-center.col-sm-2 NRIC/FIN
+      th.text-center.col-sm-1 Date of Birth
+      th.text-center.col-sm-2 NRIC
       th.text-center.col-sm-2 Membership No.
-      th.text-center.col-sm-2 Membership/Expiry
+      th.text-center.col-sm-2 Membership Expiry
       th.text-center.col-sm-1 Other ID
       th.text-center.col-sm-1 Remarks
+      th.text-center.col-sm-1 Action
 
   p.lead Add a new Approved Non-Members
   form.form-horizontal(method='POST')
@@ -101,22 +102,196 @@ block content
         button.col-sm-3.btn.btn-primary(type='submit') Submit
 
   link(rel='stylesheet', href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+  link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css')
+
   script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js')
   script.
+    class EditableDatatable {
+      constructor(options) {
+        this.className = options.className;
+        this.fields = options.fields;
+        this.fieldsIds = options.fields.map(el => el.target);
+        this.onSave = options.onSave;
+        this.initEditable();
+      }
+
+      initEditable() {
+        const buttons = $(`.${this.className}`);
+
+        $.each(buttons, (index, button) => {
+          $(button).off("click")
+
+          $(button).click((s) => {
+            const columns = $(button).parent().siblings();
+            const id = $(button).data('id');
+
+            $.each(columns, (colIndex, col) => {
+              if (this.fieldsIds.indexOf(colIndex) !== -1) {
+                const field = this.fields.find(el => el.target === colIndex);
+                let value = $(col).html();
+
+                switch (field.type) {
+                  case 'text':
+                    $(col).html(`<input class="form-control" name="${field.name}-${id}" id="${field.name}-${id}" style="width:170px" value="${value}"/>`);
+                    break;
+                  case 'date':
+                    $(col).html(`<input class="form-control" name="${field.name}-${id}" id="${field.name}-${id}" style="width:170px"/>`);
+                    $(`#${field.name}-${id}`).datetimepicker({
+                      defaultDate: moment(value, "DD/MM/YYYY"),
+                      format: "DD/MM/YYYY"
+                    });
+                    break;
+                  case 'datetime':
+                    $(col).html(`<input class="form-control" name="${field.name}-${id}" id="${field.name}-${id}" style="width:170px"/>`);
+                    $(`#${field.name}-${id}`).datetimepicker({
+                      defaultDate: moment(value, "DD/MM/YYYY, h:mm A"),
+                      format: "DD/MM/YYYY, h:mm A"
+                    });
+                    break;
+                  case 'boolean':
+                    value = value === field.labels[0];
+                    $(col).html(`
+                            <div class="radio"> <label><input type="radio" ${value} ${value ? 'checked' : ''} value="true" name="${field.name}-${id}">${field.labels[0]}</label> </div>
+                            <div class="radio"> <label><input type="radio" ${value ? '' : 'checked'} name="${field.name}-${id}" value="false">${field.labels[1]}</label> </div>`);
+                    break;
+                }
+              }
+            });
+
+            $(button).off("click")
+            $(button).attr('class', 'btn btn-success');
+            $(button).html('Save');
+
+            $(button).click((b) => {
+              let values = {id};
+
+              $.each(columns, (colIndex, col) => {
+                if (this.fieldsIds.indexOf(colIndex) !== -1) {
+                  const field = this.fields.find(el => el.target === colIndex);
+
+                  switch (field.type) {
+                    case 'text':
+                      const text = $(`input[name="${field.name}-${id}"]`).val();
+                      values = Object.assign(values, {[field.name]: text});
+                      break;
+                    case 'datetime':
+                      let dt = $(`input[name="${field.name}-${id}"]`).val();
+                      tdate = moment(dt, "DD/MM/YYYY, h:mm A").toDate();
+                      values = Object.assign(values, {[field.name]: dt});
+                      break;
+                    case 'date':
+                      let date = $(`input[name="${field.name}-${id}"]`).val();
+                      date = moment(date, "DD/MM/YYYY, h:mm A").toDate();
+                      values = Object.assign(values, {[field.name]: date});
+                      break;
+                    case 'boolean':
+                      const boo = $(`input[name="${field.name}-${id}"]:checked`).val();
+                      values = Object.assign(values, {[field.name]: boo === 'true'});
+                      break;
+                  }
+                }
+              });
+
+              $(button).off("click")
+              $(button).attr('class', `${this.className} btn btn-primary`);
+              $(button).html('<i class="fa fa-spinner fa-pulse fa-small fa-fw"></i><span>Saving</span>');
+
+              this.onSave(values);
+            })
+          })
+        })
+      }
+    }
+    
     $(document).ready(function () {
-      $('#non-members-table').DataTable({
+      const datatable = $('#non-members-table').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax": "non-members/datatable",
         "columns": [
           {"data": "name"},
-          {"data": "dob", "searchable": "false"},
+          {"data": "dob", "searchable": false},
           {"data": "nric"},
           {"data": "membershipId"},
-          {"data": "membershipExpiry", "searchable": "false"},
+          {"data": "membershipExpiry", "searchable": false},
           {"data": "otherId"},
-          {"data": "remarks"}
+          {"data": "remarks"},
+          {"data": "_id", "searchable": false, 'orderable': false}
         ],
-        "order": [ "0", "asc" ]
+        "order": ["0", "asc"],
+        "columnDefs": [
+          {
+            "targets": 1,
+            "render": (data) => moment(data).format("DD/MM/YYYY")
+          },
+          {
+            "targets": 4,
+            "render": (data) => moment(data).format("DD/MM/YYYY")
+          },
+          {
+            "targets": 7,
+            "render": function (data) {
+              return `<button class="editable btn btn-primary" data-id="${data}">Edit</button>`;
+            }
+          }
+        ]
+      });
+
+      $('#non-members-table').on('draw.dt', function () {
+        new EditableDatatable({
+          className: 'editable',
+          fields: [
+            {
+              target: 0,
+              type: 'text',
+              name: 'name'
+            },
+            {
+              target: 1,
+              type: 'date',
+              name: 'dob'
+            },
+            {
+              target: 2,
+              type: 'text',
+              name: 'nric'
+            },
+            {
+              target: 3,
+              type: 'text',
+              name: 'membershipId'
+            },
+            {
+              target: 4,
+              type: 'date',
+              name: 'membershipExpiry'
+            },
+            {
+              target: 5,
+              type: 'text',
+              name: 'otherId'
+            },
+            {
+              target: 6,
+              type: 'text',
+              name: 'remarks'
+            },
+          ],
+          onSave: (data) => {
+            $.ajax({
+              type: "PUT",
+              url: `/non-members/${data.id}`,
+              data,
+              dataType: "json",
+              success: function (res) {
+                console.log(res);
+                datatable.ajax.reload();
+                // location.reload();
+              }
+            });
+          }
+        })
       });
     });

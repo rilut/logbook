@@ -85,10 +85,10 @@ exports.postVisitor = (req, res, next) => {
  */
 exports.putVisitor = (req, res, next) => {
   const id = req.params.id;
-  const body = {
-    otherFields: req.body.otherFields
-  };
-  Visitor.findByIdAndUpdate(id, body, { new: true }, (err, visitor) => {
+  // const body = {
+  //   otherFields: req.body.otherFields
+  // };
+  Visitor.findByIdAndUpdate(id, req.body, { new: true }, (err, visitor) => {
     if (err) {
       return next(err);
     }

@@ -30,25 +30,25 @@ block content
     //  td
     //    button.btn.btn-link(type='submit')
     //      i.fa.fa-trash
-  .row
-    nav.text-center(aria-label="Page navigation")
-      ul.pagination
-        li
-          a(href="#", aria-label="Previous")
-            span(aria-hidden="true") «
-        li
-          a(href="#") 1
-        li
-          a(href="#") 2
-        li
-          a(href="#") 3
-        li
-          a(href="#") 4
-        li
-          a(href="#") 5
-        li
-          a(href="#", aria-label="Next")
-            span(aria-hidden="true") »
+    // .row
+    // nav.text-center(aria-label="Page navigation")
+    //   ul.pagination
+    //     li
+    //       a(href="#", aria-label="Previous")
+    //         span(aria-hidden="true") «
+    //     li
+    //       a(href="#") 1
+    //     li
+    //       a(href="#") 2
+    //     li
+    //       a(href="#") 3
+    //     li
+    //       a(href="#") 4
+    //     li
+    //       a(href="#") 5
+    //     li
+    //       a(href="#", aria-label="Next")
+    //         span(aria-hidden="true") »
 
     .btn-export-excel
       a(href='/logs/csv')
@@ -57,9 +57,15 @@ block content
           | Export All Logs to Excel File
 
   link(rel='stylesheet', href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+  link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css')
+
   script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment.min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js')
+
   script.
     $(document).ready(function () {
+      
       $('#logs-table').DataTable({
         "processing": true,
         "serverSide": true,
@@ -73,8 +79,156 @@ block content
           {"data": "timeIn"},
           {"data": "timeOut"},
           {"data": "loginSuccessful"},
-          {"data": "actionEdit", "searchable": false, 'orderable': false}
+          {"data": "_id", "searchable": false, 'orderable': false}
         ],
-        "order": ["5", "desc"]
+        "order": ["5", "desc"],
+        "columnDefs": [ 
+          { 
+            "targets": 1,
+            "render": (data) => moment(data).format("DD/MM/YYYY")
+          },
+          { 
+            "targets": 4,
+            "render": (data) => moment(data).format("DD/MM/YYYY")
+          },
+          { 
+            "targets": 5,
+            "render": (data) => moment(data).format("DD/MM/YYYY, h:mm A")
+          },
+          { 
+            "targets": 6,
+            "render": (data) => moment(data).format("DD/MM/YYYY, h:mm A")
+          },
+          { 
+            "targets": 7,
+            "render": (data) =>  data ? 'Success' : 'Fail'
+          },
+          {
+            "targets": 8,
+            "render": (data) => `<button class="editable btn btn-primary" data-id="${data}">Edit</button>`
+          }
+        ],
       });
+
+      $('#logs-table').on('draw.dt', function () {
+         new EditableDatatable({
+            className: 'editable',
+            fields: [
+              {
+                target: 5,
+                type: 'datetime',
+                name: 'timeIn'
+              },
+              {
+                target: 6,
+                type: 'datetime',
+                name: 'timeOut'
+              },
+              {
+                target: 7,
+                type: 'boolean',
+                name: 'loginSuccessful',
+                labels: ['Success','Fail']
+              }
+            ],
+            onSave: (data) => {
+              $.ajax({
+                type: "PUT",
+                url: `/logs/${data.id}`,
+                data,
+                dataType: "json",
+                success: function (res) {
+                  location.reload();
+                }
+              });
+            }
+          })
+      });
+
     });
+
+    class EditableDatatable {
+      constructor(options) {
+        this.className = options.className;
+        this.fields = options.fields;
+        this.fieldsIds = options.fields.map(el => el.target)
+        this.onSave = options.onSave
+
+        this.initEditable()
+      }
+
+      initEditable () {
+        const buttons = $(`.${this.className}`);
+        
+        $.each(buttons, (index, button) => {
+          $(button).off("click")
+
+          $(button).click((s) => {
+            const columns = $(button).parent().siblings();
+            const id = $(button).data('id');
+
+            $.each(columns, (colIndex, col) => {
+
+              if(this.fieldsIds.indexOf(colIndex) !== -1) {
+                const field = this.fields.find(el => el.target === colIndex);
+                let value = $(col).html();
+
+                switch(field.type) {
+                  case 'datetime': 
+                    $(col).html(`<input class="form-control" name="${field.name}-${id}" id="${field.name}-${id}" style="width:170px"/>`);
+                    $(`#${field.name}-${id}`).datetimepicker({defaultDate: moment(value, "DD/MM/YYYY, h:mm A"), format : "DD/MM/YYYY, h:mm A"});
+                  break;
+                  case 'boolean':
+                    value = value === field.labels[0];
+                    $(col).html(`
+                      <div class="radio"> <label><input type="radio" ${value} ${value ? 'checked': ''} value="true" name="${field.name}-${id}">${field.labels[0]}</label> </div>
+                      <div class="radio"> <label><input type="radio" ${value ? '': 'checked'} name="${field.name}-${id}" value="false">${field.labels[1]}</label> </div>`);
+                  break;
+                }
+              }
+
+            });
+
+            $(button).off("click")
+            $(button).attr('class', 'btn btn-success');
+            $(button).html('Save');
+
+            $(button).click((b) => {
+              let values = { id };
+
+              $.each(columns, (colIndex, col) => {
+
+                if(this.fieldsIds.indexOf(colIndex) !== -1) {
+                  const field = this.fields.find(el => el.target === colIndex);
+
+                  switch(field.type) {
+                    case 'datetime': 
+                      const val = $(`input[name="${field.name}-${id}"]`).val();
+                      const tdate = moment(val, "DD/MM/YYYY, h:mm A").toDate();
+                      values = Object.assign(values, {[field.name]: tdate})
+                      $(col).html(moment(tdate).format("DD/MM/YYYY, h:mm A"));
+                    break;
+                    case 'boolean':
+                      const val2 = $(`input[name="${field.name}-${id}"]:checked`).val();
+                      values = Object.assign(values, {[field.name]: val2 === 'true'})
+                      $(col).html(val2 === 'true' ? field.labels[0] : field.labels[1]);
+                    break;
+                  }
+                }
+
+              });
+
+              $(button).off("click")
+              $(button).attr('class', `${this.className} btn btn-primary`);
+              $(button).html('<i class="fa fa-spinner fa-pulse fa-small fa-fw"></i><span>Saving</span>');
+
+              this.onSave(values);
+              //- this.initEditable()
+            })
+          })
+
+        })
+      }
+
+    }
+     

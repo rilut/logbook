@@ -96,9 +96,9 @@ exports.putLog = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // res.json({ log });
-    req.flash('success', { msg: 'Visitor information has been updated.' });
-    res.redirect('/logs');
+    res.json({ log });
+    // req.flash('success', { msg: 'Visitor information has been updated.' });
+    // res.redirect('/logs');
     // todo: render all visitors page
   });
 };
@@ -126,10 +126,10 @@ exports.deleteLog = (req, res, next) => {
 exports.getLogsDatatable = (req, res) => {
   req.query.populate = 'visitor';
   Log.dataTable(req.query, (err, data) => {
-    data.data = data.data.map((log) => {
-      log.actionEdit = `<a href="logs/${log._id}/edit">Edit</a>`;
-      return log;
-    });
+    // data.data = data.data.map((log) => {
+    //   log.actionEdit = `<a href="logs/${log._id}/edit">Edit</a>`;
+    //   return log;
+    // });
     res.send(data);
   });
 };
